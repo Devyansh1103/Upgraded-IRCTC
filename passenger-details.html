@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRCTC Passenger Details - UX Redesign</title>
+  <link rel="stylesheet" href="passenger-details.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="top-strip">
+    <div class="container top-strip-inner">
+      <div class="left-links">
+        <a href="index.html#support-help-section">CONTACT US</a>
+        <a href="index.html#support-help-section">HELP</a>
+      </div>
+      <div class="right-links">
+        <a href="index.html#register-card">REGISTER</a>
+        <a href="index.html#login-card">LOGIN</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand-wrap">
+        <a class="logo" href="index.html" aria-label="IRCTC Home">IRCTC</a>
+        <div class="brand-text">Indian Railway Catering and Tourism Corporation</div>
+      </div>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="index.html">Trains</a>
+        <a href="passenger-details.html">My Bookings</a>
+        <a href="train-results.html">PNR Status</a>
+        <a href="index.html#tertiary-zone-title">Support</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page-wrap" id="main-content">
+    <ol class="progress-tracker">
+      <li class="done">Search</li>
+      <li class="done">Select Train</li>
+      <li class="active">Passenger Details</li>
+      <li>Review</li>
+      <li>Payment</li>
+      <li>Ticket Confirmed</li>
+    </ol>
+
+    <button class="mobile-summary-toggle" id="mobile-summary-toggle" aria-expanded="false" aria-controls="summary-panel">Show Booking Summary</button>
+
+    <section class="layout">
+      <aside class="summary-panel">
+        <div id="summary-panel" class="summary-panel-content">
+        <h2>Booking Summary</h2>
+        <ul>
+          <li><span>Train</span><strong>12952 - Mumbai Rajdhani</strong></li>
+          <li><span>Date</span><strong>12 Apr 2026</strong></li>
+          <li><span>Route</span><strong>NDLS → MMCT</strong></li>
+          <li><span>Class</span><strong>3A</strong></li>
+          <li><span>Quota</span><strong>Tatkal</strong></li>
+          <li><span>Passengers</span><strong id="summary-passenger-count">2</strong></li>
+          <li><span>Fare Estimate</span><strong>Rs 3,840</strong></li>
+        </ul>
+        <div class="summary-note">Please verify passenger names as per valid ID before proceeding to review.</div>
+        </div>
+      </aside>
+
+      <section class="form-panel">
+        <header class="panel-header">
+          <h1>Passenger Details</h1>
+          <p>Complete required fields first. Optional preferences are separated below for easier completion.</p>
+        </header>
+
+        <p class="required-note"><strong>* Required fields:</strong> Name, Age, Gender for each passenger, and Mobile Number.</p>
+
+        <form id="passenger-form" novalidate>
+          <div class="section-head">
+            <h3>Passenger Information</h3>
+            <div class="section-actions">
+              <button type="button" class="ghost-btn" id="copy-saved-btn">Copy from Saved Passenger</button>
+              <button type="button" class="ghost-btn" id="add-passenger-btn">Add Passenger</button>
+            </div>
+          </div>
+
+          <div id="passenger-list">
+            <article class="passenger-card" data-passenger-card>
+              <div class="passenger-card-head">
+                <h4>Passenger 1</h4>
+                <span class="passenger-status">Required details</span>
+                <button type="button" class="passenger-toggle" aria-expanded="true">Collapse</button>
+              </div>
+              <div class="passenger-grid">
+                <label>Full Name <em>*</em>
+                  <input type="text" name="name-1" data-required="true" placeholder="Enter full name as per ID">
+                  <small>Required field</small>
+                </label>
+                <label>Age <em>*</em>
+                  <input type="number" name="age-1" data-required="true" min="1" max="120" placeholder="Age">
+                  <small>Required field</small>
+                </label>
+                <label>Gender <em>*</em>
+                  <select name="gender-1" data-required="true">
+                    <option value="">Select</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Transgender</option>
+                  </select>
+                  <small>Required field</small>
+                </label>
+                <label>Berth Preference
+                  <select name="berth-1">
+                    <option>No Preference</option>
+                    <option>Lower</option>
+                    <option>Middle</option>
+                    <option>Upper</option>
+                    <option>Side Lower</option>
+                    <option>Side Upper</option>
+                  </select>
+                  <small>Optional</small>
+                </label>
+                <label class="wide">Senior Citizen / Concession
+                  <select name="concession-1">
+                    <option>Not Applicable</option>
+                    <option>Senior Citizen</option>
+                    <option>Divyang</option>
+                    <option>Other Eligible Concession</option>
+                  </select>
+                  <small>Optional</small>
+                </label>
+              </div>
+            </article>
+
+            <article class="passenger-card" data-passenger-card>
+              <div class="passenger-card-head">
+                <h4>Passenger 2</h4>
+                <span class="passenger-status">Required details</span>
+                <button type="button" class="passenger-toggle" aria-expanded="true">Collapse</button>
+              </div>
+              <div class="passenger-grid">
+                <label>Full Name <em>*</em>
+                  <input type="text" name="name-2" data-required="true" placeholder="Enter full name as per ID">
+                  <small>Required field</small>
+                </label>
+                <label>Age <em>*</em>
+                  <input type="number" name="age-2" data-required="true" min="1" max="120" placeholder="Age">
+                  <small>Required field</small>
+                </label>
+                <label>Gender <em>*</em>
+                  <select name="gender-2" data-required="true">
+                    <option value="">Select</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Transgender</option>
+                  </select>
+                  <small>Required field</small>
+                </label>
+                <label>Berth Preference
+                  <select name="berth-2">
+                    <option>No Preference</option>
+                    <option>Lower</option>
+                    <option>Middle</option>
+                    <option>Upper</option>
+                    <option>Side Lower</option>
+                    <option>Side Upper</option>
+                  </select>
+                  <small>Optional</small>
+                </label>
+                <label class="wide">Senior Citizen / Concession
+                  <select name="concession-2">
+                    <option>Not Applicable</option>
+                    <option>Senior Citizen</option>
+                    <option>Divyang</option>
+                    <option>Other Eligible Concession</option>
+                  </select>
+                  <small>Optional</small>
+                </label>
+              </div>
+            </article>
+          </div>
+
+          <section class="form-section">
+            <h3>Contact Details</h3>
+            <div class="contact-grid">
+              <label>Mobile Number <em>*</em>
+                <input id="mobile" type="tel" data-required="true" placeholder="10-digit mobile number">
+                <small>Required for booking updates and OTP</small>
+              </label>
+              <label>Email
+                <input id="email" type="email" placeholder="Enter email (optional)">
+                <small>Optional</small>
+              </label>
+            </div>
+          </section>
+
+          <section class="form-section optional-section">
+            <h3>Travel Preferences (Optional)</h3>
+            <div class="pref-grid">
+              <label>
+                <input type="checkbox" name="auto-upgrade">
+                Consider for auto-upgradation
+              </label>
+              <label>
+                <input type="checkbox" name="insurance" checked>
+                Travel insurance (recommended)
+              </label>
+              <label>
+                <input type="checkbox" name="book-only-if-confirm">
+                Book only if confirmed berths are available
+              </label>
+            </div>
+          </section>
+
+          <p id="form-message" class="form-message" aria-live="polite"></p>
+
+          <div class="cta-row">
+            <button type="button" class="ghost-btn" id="passenger-back-btn">Back</button>
+            <button type="submit" class="primary-btn" id="passenger-continue-btn">Continue to Review Booking</button>
+          </div>
+        </form>
+      </section>
+    </section>
+
+    <div class="mobile-sticky-cta" aria-label="Mobile passenger actions">
+      <button type="button" class="ghost-btn" id="mobile-back-btn">Back</button>
+      <button type="button" class="primary-btn" id="mobile-continue-btn">Continue to Review</button>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Passenger details layout refined for clarity, calm completion, and official style continuity.</p>
+    </div>
+  </footer>
+
+  <div class="transition-overlay" id="transition-overlay" aria-hidden="true">
+    <video id="transition-video" muted playsinline preload="auto">
+      <source src="inspiration/transition.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <script src="transition.js"></script>
+  <script src="passenger-details.js"></script>
+</body>
+</html>

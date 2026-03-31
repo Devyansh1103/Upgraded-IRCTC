@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRCTC Error States & Failure UI - High-Fidelity Design System</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="error-states.css">
+  <style>
+    /* Demo Page Specific Styling */
+    .demo-section {
+      margin-top: var(--spacing-2xl);
+      padding-bottom: var(--spacing-2xl);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .demo-section:first-child {
+      margin-top: 0;
+    }
+
+    .demo-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: var(--spacing-md);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-xl);
+      margin-bottom: var(--spacing-xl);
+    }
+
+    @media (max-width: 1200px) {
+      .demo-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .demo-box {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-xl);
+      background: var(--card);
+    }
+
+    .demo-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      margin-bottom: var(--spacing-md);
+      font-weight: 700;
+    }
+
+    .demo-description {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: var(--spacing-lg);
+      line-height: 1.6;
+    }
+
+    main {
+      padding: var(--spacing-xl) 0;
+    }
+
+    .system-header {
+      background: var(--irctc-blue);
+      color: white;
+      padding: var(--spacing-xl) 0;
+      margin-bottom: var(--spacing-2xl);
+      text-align: center;
+    }
+
+    .system-header h1 {
+      margin: 0 0 var(--spacing-md) 0;
+      font-size: 32px;
+    }
+
+    .system-header p {
+      margin: 0;
+      font-size: 16px;
+      opacity: 0.95;
+    }
+
+    .scenario-label {
+      background: var(--irctc-blue);
+      color: white;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-block;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .nav-section {
+      background: var(--card);
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-xl);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+    }
+
+    .nav-section h2 {
+      margin: 0 0 var(--spacing-md) 0;
+      font-size: 16px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-md);
+    }
+
+    .nav-links a {
+      display: inline-block;
+      padding: var(--spacing-sm) var(--spacing-md);
+      background: var(--irctc-blue);
+      color: white;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      background: var(--irctc-dark-blue);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="top-strip">
+    <div class="container top-strip-inner">
+      <div class="left-links">
+        <a href="#">AGENT LOGIN</a>
+        <a href="#">CONTACT US</a>
+        <a href="#">HELP</a>
+      </div>
+      <div class="right-links">
+        <a href="#">REGISTER</a>
+        <a href="#">LOGIN</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand-wrap">
+        <div class="logo">IRCTC</div>
+        <div class="brand-text">Indian Railway Catering and Tourism Corporation</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="system-header">
+    <div class="container">
+      <h1>Error States & Failure UI System</h1>
+      <p>High-Fidelity Design System for IRCTC Booking Platform</p>
+    </div>
+  </div>
+
+  <main>
+    <div class="container">
+      <!-- Navigation -->
+      <div class="nav-section">
+        <h2>Quick Navigation to Error Scenarios</h2>
+        <div class="nav-links">
+          <a href="#payment-failed">Payment Failed</a>
+          <a href="#session-expired">Session Expired</a>
+          <a href="#booking-incomplete">Booking Incomplete</a>
+          <a href="#timeout">Server Timeout</a>
+          <a href="#technical-error">Technical Error</a>
+          <a href="#retry-needed">Retry Required</a>
+          <a href="#pending-refund">Refund Processing</a>
+          <a href="#inpage-alerts">In-Page Alerts</a>
+        </div>
+      </div>
+
+      <!-- ========================================
+           SCENARIO 1: PAYMENT FAILED
+           ======================================== -->
+      <section class="demo-section" id="payment-failed">
+        <h2 class="demo-title">
+          💳 Payment Failed - Booking Status Unclear
+        </h2>
+        <p style="color: var(--muted); margin-bottom: var(--spacing-lg);">
+          The most critical error scenario. User attempted payment but it failed. They're anxious about whether the ticket was booked or whether they were charged.
+        </p>
+
+        <div class="demo-grid">
+          <!-- Scenario 1A: Payment Declined, No Booking -->
+          <div class="demo-box">
+            <small class="scenario-label">Scenario 1A: Declined, No Booking</small>
+            <div class="error-state-card" style="background: none; border: none; padding: 0; box-shadow: none; max-width: none;">
+              <div class="error-header">
+                <div class="error-icon-wrapper error">❌</div>
+                <div class="error-header-content">
+                  <h2 class="error-headline">Payment Could Not Be Processed</h2>
+                  <p class="error-subheadline">Your card was declined. You have not been charged.</p>
+                </div>
+              </div>
+
+              <div class="booking-status-banner failed">
+                <span class="status-badge failed">BOOKING NOT CREATED</span>
+                <span class="status-text">No ticket has been reserved</span>
+              </div>
+
+              <div class="error-description">
+                <h3>What Happened</h3>
+                <div class="what-happened">
+                  <span class="what-happened-icon">🔴</span>
+                  <div class="what-happened-content">
+                    <strong>Payment Declined</strong>
+                    <span>Your bank or card issuer declined this transaction. Your account has not been charged.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="reassurance-box warning">
+                <span class="reassurance-icon">⚠️</span>
+                <div class="reassurance-content">
+                  <strong>Good News</strong>
+                  No booking has been created, so you can safely try again with a different card or payment method without risk of duplicate bookings.
+                </div>
+              </div>
+
+              <div class="error-actions">
+                <button class="action-button-primary">
+                  🔄 Try Again with Another Card
+                </button>
+                <button class="action-button-secondary">
+                  💰 Try Different Payment Method
+                </button>
+                <button class="action-button-tertiary">
+                  ❓ Why Was My Card Declined?
+                </button>
+              </div>
+
+              <div class="support-section">
+                <div class="support-headline">Need Help?</div>
+                <div class="support-options">
+                  <a href="#" class="support-link">
+                    <span class="support-link-icon">📞</span>
+                    <span>Call IRCTC Support: 139 (within India)</span>
+                  </a>
+                  <a href="#" class="support-link">
+                    <span class="support-link-icon">💬</span>
+                    <span>Live Chat with Payment Specialist</span>
+                  </a>
+                  <a href="#" class="support-link">
+                    <span class="support-link-icon">📧</span>
+                    <span>Email Support@irctc.co.in</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scenario 1B: Payment Timeout, Booking Pending -->
+          <div class="demo-box">
+            <small class="scenario-label">Scenario 1B: Timeout, Booking May Be Created</small>
+            <div class="error-state-card" style="background: none; border: none; padding: 0; box-shadow: none; max-width: none;">
+              <div class="error-header">
+                <div class="error-icon-wrapper warning">⏱️</div>
+                <div class="error-header-content">
+                  <h2 class="error-headline">Payment Took Too Long</h2>
+                  <p class="error-subheadline">We're not sure if your payment succeeded. Please check below.</p>
+                </div>
+              </div>
+
+              <div class="booking-status-banner pending">
+                <span class="status-badge pending">BOOKING UNDER VERIFICATION</span>
+                <span class="status-text">Status will be confirmed within 2-3 minutes</span>
+              </div>
+
+              <div class="error-description">
+                <h3>What Happened</h3>
+                <div class="what-happened">
+                  <span class="what-happened-icon">🟡</span>
+                  <div class="what-happened-content">
+                    <strong>Payment Process Interrupted</strong>
+                    <span>The payment gateway didn't respond in time. Your transaction might have gone through or might have been cancelled.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="reassurance-box">
+                <span class="reassurance-icon">✅</span>
+                <div class="reassurance-content">
+                  <strong>Don't Panic</strong>
+                  <strong>Most payments succeed even with timeouts.</strong> Please check your booking status below. If your bank shows a deduction, we will verify and book your ticket within 2-3 minutes.
+                </div>
+              </div>
+
+              <div class="info-grid">
+                <div class="info-box">
+                  <span class="info-box-label">Reference ID</span>
+                  <span class="info-box-value">PAY989765</span>
+                </div>
+                <div class="info-box">
+                  <span class="info-box-label">Amount</span>
+                  <span class="info-box-value">₹2,450</span>
+                </div>
+              </div>
+
+              <div class="error-actions">
+                <button class="action-button-primary">
+                  ✅ Check My Booking Status
+                </button>
+                <button class="action-button-secondary">
+                  💳 Check Payment Status
+                </button>
+                <button class="action-button-tertiary">
+                  🔄 Retry Payment
+                </button>
+              </div>
+
+              <div class="support-section">
+                <div class="support-headline">Important Information</div>
+                <div class="support-options">
+                  <a href="#" class="support-link">
+                    <span class="support-link-icon">📋</span>
+                    <span>View My Bookings & Payment History</span>
+                  </a>
+                  <a href="#" class="support-link">
+                    <span class="support-link-icon">💰</span>
+                    <span>Track Refund Status (if applicable)</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario 1C: Payment Successful, Booking Confirmed -->
+        <div style="margin-top: var(--spacing-lg);">
+          <small class="scenario-label">Scenario 1C: Payment Succeeded, Showing Booking Confirmed (For Reference)</small>
+          <div class="demo-box">
+            <div class="error-state-card" style="background: none; border: none; padding: 0; box-shadow: none; max-width: none;">
+              <div class="error-header">
+                <div class="error-icon-wrapper success" style="animation: checkmark 0.5s ease-out;">✓</div>
+                <div class="error-header-content">
+                  <h2 class="error-headline">Ticket Booking Confirmed!</h2>
+                  <p class="error-subheadline">Your booking has been successfully completed.</p>
+                </div>
+              </div>
+
+              <div class="booking-status-banner confirmed">
+                <span class="status-badge confirmed">TICKET CONFIRMED</span>
+                <span class="status-text">Your seat has been reserved</span>
+              </div>
+
+              <div class="info-grid">
+                <div class="info-box">
+                  <span class="info-box-label">Booking Reference</span>
+                  <span class="info-box-value">KXMN78</span>
+                </div>
+                <div class="info-box">
+                  <span class="info-box-label">Seat Number</span>
+                  <span class="info-box-value">B3/41</span>
+                </div>
+                <div class="info-box">
+                  <span class="info-box-label">Amount Paid</span>
+                  <span class="info-box-value">₹2,450</span>
+                </div>
+                <div class="info-box">
+                  <span class="info-box-label">Journey</span>
+                  <span class="info-box-value">03 Apr 2026</span>
+                </div>
+              </div>
+
+              <div class="error-actions">
+                <button class="action-button-primary">
+                  📱 Get E-Ticket
+                </button>
+                <button class="action-button-secondary">
+                  🔄 Book Another Ticket
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           SCENARIO 2: SESSION EXPIRED
+           ======================================== -->
+      <section class="demo-section" id="session-expired">
+        <h2 class="demo-title">
+          🔐 Session Expired - Action Required
+        </h2>
+        <p style="color: var(--muted); margin-bottom: var(--spacing-lg);">
+          User was in the middle of booking when their session expired due to inactivity or forced logout.
+        </p>
+
+        <div class="demo-box">
+          <div class="error-state-card" style="background: none; border: none; padding: 0; box-shadow: none; max-width: none;">
+            <div class="error-header">
+              <div class="error-icon-wrapper warning">⏰</div>
+              <div class="error-header-content">
+                <h2 class="error-headline">Your Session Has Expired</h2>
+                <p class="error-subheadline">For your security, you were logged out after 30 minutes of inactivity.</p>
+              </div>
+            </div>
+
+            <div class="booking-status-banner">
+              <span class="status-badge" style="background: var(--status-warning); color: white;">SESSION ENDED</span>
+              <span class="status-text">No booking was created. Your search data is saved.</span>
+            </div>
+
+            <div class="error-description">
+              <h3>What Happened</h3>
+              <p>You were taken away from your booking for security reasons. Any data you entered (routes, dates, passenger details) has been saved on your device.</p>
+            </div>
+
+            <div class="recovery-steps">
+              <div class="recovery-steps-title">How to Continue</div>
+              <div class="recovery-step">
+                <div class="recovery-step-number">1</div>
+                <div class="recovery-step-content">Log back into your IRCTC account</div>
+              </div>
+              <div class="recovery-step">
+                <div class="recovery-step-number">2</div>
+                <div class="recovery-step-content">Your previous search will appear automatically</div>
+              </div>
+              <div class="recovery-step">
+                <div class="recovery-step-number">3</div>
+                <div class="recovery-step-content">Review and continue booking</div>
+              </div>
+            </div>
+
+            <div class="error-actions">
+              <button class="action-button-primary">
+                🔑 Log In Again
+              </button>
+              <button class="action-button-secondary">
+                🏠 Start New Search
+              </button>
+            </div>
+
+            <div class="reassurance-box">
+              <span class="reassurance-icon">💡</span>
+              <div class="reassurance-content">
+                <strong>Pro Tip:</strong> Check "Keep me logged in" to stay signed in for up to 30 days. Your account remains secure because we verify your location and device.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           SCENARIO 3: BOOKING NOT COMPLETED
+           ======================================== -->
+      <section class="demo-section" id="booking-incomplete">
+        <h2 class="demo-title">
+          📋 Booking Not Completed - Missing Information
+        </h2>
+        <p style="color: var(--muted); margin-bottom: var(--spacing-lg);">
+          User tried to complete booking but required fields are missing or invalid.
+        </p>
+
+        <div class="demo-box">
+          <div class="error-state-card" style="background: none; border: none; padding: 0; box-shadow: none; max-width: none;">
+            <div class="error-header">
+              <div class="error-icon-wrapper warning">⚠️</div>
+              <div class="error-header-content">
+                <h2 class="error-headline">Cannot Complete Booking</h2>
+                <p class="error-subheadline">Some required information is missing or incorrect. Please fix the highlighted fields below.</p>
+              </div>
+            </div>
+
+            <div class="booking-status-banner">
+              <span class="status-badge" style="background: var(--status-warning); color: white;">BOOKING INCOMPLETE</span>
+              <span class="status-text">Please fill in all required fields</span>
+            </div>
+
+            <div class="form-field-error">
+              <label>Passenger 1 - Mobile Number *</label>
+              <input type="text" placeholder="Enter 10-digit mobile number" value="">
+              <div class="form-field-error-message">
+                <span>⚠️</span>
+                <span>Mobile number is required for booking confirmation</span>
+              </div>
+            </div>
+
+            <div class="form-field-error" style="margin-bottom: 0;">
+              <label>Passenger 2 - Age *</label>
+              <input type="text" placeholder="Enter age between 5 and 100" value="">
+              <div class="form-field-error-message">
+                <span>⚠️</span>
+                <span>Age must be between 5 and 100 years</span>
+              </div>
+            </div>
+
+            <div class="error-actions" style="margin-top: var(--spacing-lg);">
+              <button class="action-button-primary">
+                ✓ Complete Booking
+              </button>
+              <button class="action-button-tertiary">
+                🔄 Start Over
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           SCENARIO 4: SERVER TIMEOUT
+           ======================================== -->
+      <section class="demo-section" id="timeout">
+        <h2 class="demo-title">
+          🖥️ Server Timeout - Technical Issue
+        </h2>
+        <p style="color: var(--muted); margin-bottom: var(--spacing-lg);">
+          The server didn't respond in time. A frustrating but recoverable error.
+        </p>
+
+        <div class="demo-box">
+          <div class="error-state-card" style="background: none; border: none; padding: 0; box-shadow: none; max-width: none;">
+            <div class="error-header">
+              <div class="error-icon-wrapper error">⏳</div>
+              <div class="error-header-content">
+                <h2 class="error-headline">Request Timed Out</h2>
+                <p class="error-subheadline">The server didn't respond in time. Your request was not processed.</p>
+              </div>
+            </div>
+
+            <div class="booking-status-banner">
+              <span class="status-badge failed">NO BOOKING CREATED</span>
+              <span class="status-text">Your information was not submitted</span>
+            </div>
+
+            <div class="error-description">
+              <h3>What Happened</h3>
+              <p>We tried to search for trains, but the system didn't respond quickly enough. This is usually temporary and happens when the system is very busy.</p>
+            </div>
+
+            <div class="reassurance-box warning">
+              <span class="reassurance-icon">ℹ️</span>
+              <div class="reassurance-content">
+                <strong>No Payment Made</strong>
+                Your search didn't complete, so no payment was attempted. You're safe to try again.
+              </div>
+            </div>
+
+            <div class="error-actions">
+              <button class="action-button-primary">
+                🔄 Try Again
+              </button>
+              <button class="action-button-secondary">
+                💾 Load Previous Search
+              </button>
+            </div>
+
+            <div class="reassurance-box" style="margin-top: var(--spacing-lg);">
+              <span class="reassurance-icon">💡</span>
+              <div class="reassurance-content">
+                <strong>Tip:</strong> If this keeps happening, the system might be busy. Try searching during off-peak hours (late night or early morning).
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           SCENARIO 5: TECHNICAL ERROR
+           ======================================== -->
+      <section class="demo-section" id="technical-error">
+        <h2 class="demo-title">
+          🔧 Technical Error - System Issue
+        </h2>
+        <p style="color: var(--muted); margin-bottom: var(--spacing-lg);">
+          A generic technical error. Must explain clearly what went wrong and provide recovery options.
+        </p>
+
+        <div class="demo-box">
+          <div class="error-state-card" style="background: none; border: none; padding: 0; box-shadow: none; max-width: none;">
+            <div class="error-header">
+              <div class="error-icon-wrapper error">❌</div>
+              <div class="error-header-content">
+                <h2 class="error-headline">Something Went Wrong</h2>
+                <p class="error-subheadline">We experienced a technical issue. Our team has been notified.</p>
+              </div>
+            </div>
+
+            <div class="booking-status-banner failed">
+              <span class="status-badge failed">BOOKING NOT CREATED</span>
+              <span class="status-text">No charges were made</span>
+            </div>
+
+            <div class="error-description">
+              <h3>What You Can Do Now</h3>
+              <p>This is a temporary issue with our system. It's not your fault, and your information is safe. Please try again in a few moments.</p>
+            </div>
+
+            <div class="info-grid">
+              <div class="info-box">
+                <span class="info-box-label">Error ID</span>
+                <span class="info-box-value">ERR-2026-89456</span>
+              </div>
+              <div class="info-box">
+                <span class="info-box-label">Time</span>
+                <span class="info-box-value">14:32 IST</span>
+              </div>
+            </div>
+
+            <div class="error-actions">
+              <button class="action-button-primary">
+                🔄 Try Again
+              </button>
+              <button class="action-button-secondary">
+                🏠 Return Home
+              </button>
+              <button class="action-button-tertiary">
+                📧 Report This Issue
+              </button>
+            </div>
+
+            <div class="support-section">
+              <div class="support-headline">How We Can Help</div>
+              <div class="support-options">
+                <a href="#" class="support-link">
+                  <span class="support-link-icon">📞</span>
+                  <span>Call Support: 139 (24/7 helpline)</span>
+                </a>
+                <a href="#" class="support-link">
+                  <span class="support-link-icon">✉️</span>
+                  <span>Send Us Your Error ID for Investigation</span>
+                </a>
+                <a href="#" class="support-link">
+                  <span class="support-link-icon">📱</span>
+                  <span>Message Support via WhatsApp: +91-XXXXXXXXXX</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           SCENARIO 6: RETRY REQUIRED
+           ======================================== -->
+      <section class="demo-section" id="retry-needed">
+        <h2 class="demo-title">
+          🔄 Action Needed - Retry Payment
+        </h2>
+        <p style="color: var(--muted); margin-bottom: var(--spacing-lg);">
+          Payment gateway needs user to retry. Transaction is reversible.
+        </p>
+
+        <div class="demo-box">
+          <div class="error-state-card" style="background: none; border: none; padding: 0; box-shadow: none; max-width: none;">
+            <div class="error-header">
+              <div class="error-icon-wrapper warning">🔄</div>
+              <div class="error-header-content">
+                <h2 class="error-headline">Please Retry Payment</h2>
+                <p class="error-subheadline">The payment gateway encountered a temporary issue. Your previous payment attempt has been cancelled.</p>
+              </div>
+            </div>
+
+            <div class="booking-status-banner">
+              <span class="status-badge" style="background: var(--status-warning); color: white;">PAYMENT NEED RETRY</span>
+              <span class="status-text">First attempt was reversed</span>
+            </div>
+
+            <div class="error-description">
+              <h3>Important</h3>
+              <p>✓ You have NOT been charged<br>✓ No booking was created<br>✓ It is completely safe to try again</p>
+            </div>
+
+            <div class="error-actions">
+              <button class="action-button-primary">
+                💳 Retry Payment Now
+              </button>
+              <button class="action-button-secondary">
+                💰 Use Different Card
+              </button>
+            </div>
+
+            <div class="reassurance-box">
+              <span class="reassurance-icon">✅</span>
+              <div class="reassurance-content">
+                <strong>You're Protected</strong>
+                The payment process is monitored to prevent duplicate charges, so you can safely retry without worrying about being charged twice.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           SCENARIO 7: REFUND PROCESSING
+           ======================================== -->
+      <section class="demo-section" id="pending-refund">
+        <h2 class="demo-title">
+          💰 Refund Under Process - Status Tracking
+        </h2>
+        <p style="color: var(--muted); margin-bottom: var(--spacing-lg);">
+          Payment was cancelled, and refund is being processed. User needs clarity on timeline and status.
+        </p>
+
+        <div class="demo-box">
+          <div class="error-state-card" style="background: none; border: none; padding: 0; box-shadow: none; max-width: none;">
+            <div class="error-header">
+              <div class="error-icon-wrapper warning">💸</div>
+              <div class="error-header-content">
+                <h2 class="error-headline">Refund Is Being Processed</h2>
+                <p class="error-subheadline">Your cancellation has been accepted. Money will be returned to your account.</p>
+              </div>
+            </div>
+
+            <div class="booking-status-banner refund">
+              <span class="status-badge refund">REFUND IN PROGRESS</span>
+              <span class="status-text">Funds will be in your account within 5-7 business days</span>
+            </div>
+
+            <div class="journey-state">
+              <div class="journey-step active">
+                <div class="step-indicator">✓</div>
+                <div class="step-label">Cancellation Accepted</div>
+                <div class="step-status">Today, 14:32</div>
+              </div>
+              <div class="journey-step active">
+                <div class="step-indicator">✓</div>
+                <div class="step-label">Refund Initiated</div>
+                <div class="step-status">Processing</div>
+              </div>
+              <div class="journey-step inactive">
+                <div class="step-indicator">2</div>
+                <div class="step-label">Bank Verification</div>
+                <div class="step-status">1-2 days</div>
+              </div>
+              <div class="journey-step inactive">
+                <div class="step-indicator">3</div>
+                <div class="step-label">Amount Credited</div>
+                <div class="step-status">5-7 days</div>
+              </div>
+            </div>
+
+            <div class="info-grid">
+              <div class="info-box">
+                <span class="info-box-label">Original Amount</span>
+                <span class="info-box-value">₹2,450</span>
+              </div>
+              <div class="info-box">
+                <span class="info-box-label">Refund Status</span>
+                <span class="info-box-value">Processing</span>
+              </div>
+              <div class="info-box">
+                <span class="info-box-label">Booking Reference</span>
+                <span class="info-box-value">KXMN78</span>
+              </div>
+              <div class="info-box">
+                <span class="info-box-label">Expected Date</span>
+                <span class="info-box-value">10 Apr 2026</span>
+              </div>
+            </div>
+
+            <div class="error-actions">
+              <button class="action-button-primary">
+                📋 View Refund Details
+              </button>
+              <button class="action-button-secondary">
+                🔄 Book New Ticket
+              </button>
+            </div>
+
+            <div class="reassurance-box">
+              <span class="reassurance-icon">ℹ️</span>
+              <div class="reassurance-content">
+                <strong>Note:</strong> Refunds can take 5-7 business days depending on your bank. If not received after 7 days, contact IRCTC support with your Booking Reference number.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           SCENARIO 8: IN-PAGE ERROR ALERTS
+           ======================================== -->
+      <section class="demo-section" id="inpage-alerts">
+        <h2 class="demo-title">
+          🚨 In-Page Error Alerts - Context-Sensitive Feedback
+        </h2>
+        <p style="color: var(--muted); margin-bottom: var(--spacing-lg);">
+          Non-blocking alerts that appear within the booking flow to provide immediate feedback without interrupting the user.
+        </p>
+
+        <div style="display: grid; gap: var(--spacing-lg);">
+          <!-- Alert 1: Error -->
+          <div class="demo-box">
+            <small class="scenario-label">Alert Type: Error - Field Validation</small>
+            <div class="error-alert">
+              <span class="error-alert-icon">❌</span>
+              <div class="error-alert-content">
+                <h4 class="error-alert-headline">Invalid Ticket Count</h4>
+                <p class="error-alert-description">You selected 48 passengers but the maximum is 6 tickets per booking. Please adjust your selection.</p>
+              </div>
+              <button class="error-alert-close">✕</button>
+            </div>
+          </div>
+
+          <!-- Alert 2: Warning -->
+          <div class="demo-box">
+            <small class="scenario-label">Alert Type: Warning - Data Loss Risk</small>
+            <div class="error-alert warning">
+              <span class="error-alert-icon">⚠️</span>
+              <div class="error-alert-content">
+                <h4 class="error-alert-headline">Connection Lost</h4>
+                <p class="error-alert-description">We lost connection to the server. Your booking form is saved locally. Please reconnect to continue.</p>
+              </div>
+              <button class="error-alert-close">✕</button>
+            </div>
+          </div>
+
+          <!-- Alert 3: Info -->
+          <div class="demo-box">
+            <small class="scenario-label">Alert Type: Info - Important Information</small>
+            <div class="error-alert info">
+              <span class="error-alert-icon">ℹ️</span>
+              <div class="error-alert-content">
+                <h4 class="error-alert-headline">High Demand - Limited Seats</h4>
+                <p class="error-alert-description">This train is fully booked. Only Tatkal quota has seats available for your selected date. Proceed only if interested in Tatkal.</p>
+              </div>
+              <button class="error-alert-close">✕</button>
+            </div>
+          </div>
+
+          <!-- Alert 4: Success -->
+          <div class="demo-box">
+            <small class="scenario-label">Alert Type: Success - Positive Outcome</small>
+            <div class="error-alert success">
+              <span class="error-alert-icon">✓</span>
+              <div class="error-alert-content">
+                <h4 class="error-alert-headline">Great News!</h4>
+                <p class="error-alert-description">Your IRCTC Plus membership is active. You've earned 50 loyalty points on this booking!</p>
+              </div>
+              <button class="error-alert-close">✕</button>
+            </div>
+          </div>
+
+          <!-- Alert 5: Multi-line Warning -->
+          <div class="demo-box">
+            <small class="scenario-label">Alert Type: Critical - Booking Guidelines</small>
+            <div class="error-alert warning">
+              <span class="error-alert-icon">🚫</span>
+              <div class="error-alert-content">
+                <h4 class="error-alert-headline">Payment Attempt Failed - Do Not Retry Immediately</h4>
+                <p class="error-alert-description">Your payment was declined. We recommend waiting at least 2-3 minutes before trying again. Multiple rapid attempts may temporarily block your payment method. <strong>Always check your booking status before retrying.</strong></p>
+              </div>
+              <button class="error-alert-close">✕</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           DESIGN SYSTEM SUMMARY
+           ======================================== -->
+      <section class="demo-section" style="border-bottom: none;">
+        <h2 class="demo-title">📐 Design System Components & Usage Guidelines</h2>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-lg);">
+          <div class="demo-box">
+            <h3 style="margin-top: 0;">Error Icon Variations</h3>
+            <p style="font-size: 13px; color: var(--muted); margin-bottom: var(--spacing-md);">Use appropriate icons to immediately communicate the error type:</p>
+            <div style="display: flex; justify-content: space-around; padding: var(--spacing-lg); background: var(--irctc-bg); border-radius: var(--radius-md);">
+              <div style="text-align: center;">
+                <div class="error-icon-wrapper error" style="margin: 0 auto var(--spacing-sm);">❌</div>
+                <small style="color: var(--muted);">Error</small>
+              </div>
+              <div style="text-align: center;">
+                <div class="error-icon-wrapper warning" style="margin: 0 auto var(--spacing-sm);">⚠️</div>
+                <small style="color: var(--muted);">Warning</small>
+              </div>
+              <div style="text-align: center;">
+                <div class="error-icon-wrapper pending" style="margin: 0 auto var(--spacing-sm);">⏳</div>
+                <small style="color: var(--muted);">Pending</small>
+              </div>
+              <div style="text-align: center;">
+                <div class="error-icon-wrapper success" style="margin: 0 auto var(--spacing-sm);">✓</div>
+                <small style="color: var(--muted);">Success</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo-box">
+            <h3 style="margin-top: 0;">Button Hierarchy</h3>
+            <p style="font-size: 13px; color: var(--muted); margin-bottom: var(--spacing-md);">Clear CTA hierarchy guides users toward recovery:</p>
+            <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
+              <button class="action-button-primary" style="cursor: default;">
+                Primary Action
+              </button>
+              <button class="action-button-secondary" style="cursor: default;">
+                Secondary Action
+              </button>
+              <button class="action-button-tertiary" style="cursor: default;">
+                Tertiary Action
+              </button>
+            </div>
+          </div>
+
+          <div class="demo-box">
+            <h3 style="margin-top: 0;">Booking Status Badges</h3>
+            <p style="font-size: 13px; color: var(--muted); margin-bottom: var(--spacing-md);">Always make status crystal clear:</p>
+            <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
+              <span class="status-badge confirmed">✓ Ticket Confirmed</span>
+              <span class="status-badge pending">⏳ Booking Pending</span>
+              <span class="status-badge failed">✕ Payment Failed</span>
+              <span class="status-badge refund">💸 Refund In Progress</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="demo-box" style="margin-top: var(--spacing-lg);">
+          <h3 style="margin-top: 0;">📋 UX Principles Applied</h3>
+          <ul style="color: var(--text); line-height: 1.8;">
+            <li><strong>Clarity First:</strong> Every error message explains what happened in plain language</li>
+            <li><strong>Status Always Visible:</strong> Booking status is the most prominent element</li>
+            <li><strong>Recovery Focused:</strong> Every error screen provides 2+ actionable next steps</li>
+            <li><strong>Reassurance:</strong> Calm tone and guidance reduce user anxiety</li>
+            <li><strong>Support Access:</strong> Help options are always accessible</li>
+            <li><strong>Preserved Identity:</strong> IRCTC branding and color scheme maintained throughout</li>
+            <li><strong>Responsive Design:</strong> Works seamlessly on desktop, tablet, and mobile</li>
+            <li><strong>Accessibility:</strong> Clear hierarchy, good contrast, semantic HTML</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer style="background: var(--irctc-dark-blue); color: white; padding: var(--spacing-xl) 0; margin-top: var(--spacing-2xl); text-align: center;">
+    <div class="container">
+      <p style="margin: 0; font-size: 13px;">
+        IRCTC Error States & Failure UI System | High-Fidelity Design | 2026
+      </p>
+      <p style="margin: var(--spacing-sm) 0 0 0; font-size: 12px; opacity: 0.9;">
+        Preserves IRCTC brand identity while improving user experience during booking failures
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Close alert functionality
+    document.querySelectorAll('.error-alert-close').forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.closest('.error-alert').style.opacity = '0';
+        this.closest('.error-alert').style.transform = 'scale(0.95)';
+        this.closest('.error-alert').style.transition = 'all 0.2s ease';
+        setTimeout(() => {
+          this.closest('.error-alert').style.display = 'none';
+        }, 200);
+      });
+    });
+
+    // Add interactivity to buttons
+    document.querySelectorAll('.action-button-primary, .action-button-secondary, .action-button-tertiary').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const text = this.textContent.trim();
+        console.log('User clicked:', text);
+        // In production, this would trigger navigation or API calls
+      });
+    });
+  </script>
+</body>
+</html>

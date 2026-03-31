@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRCTC Train Search Results - UX Redesign</title>
+  <link rel="stylesheet" href="train-results.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="top-strip">
+    <div class="container top-strip-inner">
+      <div class="left-links">
+        <a href="index.html#support-help-section">CONTACT US</a>
+        <a href="index.html#support-help-section">HELP</a>
+      </div>
+      <div class="right-links">
+        <a href="index.html#register-card">REGISTER</a>
+        <a href="index.html#login-card">LOGIN</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand-wrap">
+        <a class="logo" href="index.html" aria-label="IRCTC Home">IRCTC</a>
+        <div class="brand-text">Indian Railway Catering and Tourism Corporation</div>
+      </div>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="index.html">Trains</a>
+        <a href="passenger-details.html">My Bookings</a>
+        <a href="train-results.html">PNR Status</a>
+        <a href="train-results.html">Train Schedule</a>
+        <a href="index.html#tertiary-zone-title">Support</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page-wrap" id="main-content">
+    <section class="search-summary">
+      <div class="summary-item"><span>From</span><strong>NDLS - New Delhi</strong></div>
+      <div class="summary-item"><span>To</span><strong>MMCT - Mumbai Central</strong></div>
+      <div class="summary-item"><span>Journey Date</span><strong>12 Apr 2026</strong></div>
+      <div class="summary-item"><span>Class</span><strong>All Classes</strong></div>
+      <div class="summary-item"><span>Quota</span><strong>Tatkal</strong></div>
+      <button class="ghost-btn" id="modify-search-btn">Modify Search</button>
+    </section>
+
+    <section class="filters-sticky" aria-label="Train result filters">
+      <button class="mobile-filter-toggle" id="mobile-filter-toggle" aria-expanded="false" aria-controls="filters-content">Show Filters</button>
+      <div class="filters-content" id="filters-content">
+      <div class="filters-row">
+        <label>Departure
+          <select>
+            <option>Any Time</option>
+            <option>00:00 - 06:00</option>
+            <option>06:00 - 12:00</option>
+            <option>12:00 - 18:00</option>
+            <option>18:00 - 24:00</option>
+          </select>
+        </label>
+        <label>Arrival
+          <select>
+            <option>Any Time</option>
+            <option>00:00 - 06:00</option>
+            <option>06:00 - 12:00</option>
+            <option>12:00 - 18:00</option>
+            <option>18:00 - 24:00</option>
+          </select>
+        </label>
+        <label>Class
+          <select id="global-class-filter">
+            <option value="ALL">All Classes</option>
+            <option value="SL">SL</option>
+            <option value="3A">3A</option>
+            <option value="2A">2A</option>
+            <option value="1A">1A</option>
+            <option value="CC">CC</option>
+            <option value="EC">EC</option>
+          </select>
+        </label>
+        <label>Availability
+          <select>
+            <option>Any</option>
+            <option>AVAILABLE</option>
+            <option>RAC</option>
+            <option>WL</option>
+          </select>
+        </label>
+        <label>Tatkal
+          <select>
+            <option>Included</option>
+            <option>Only Tatkal Open</option>
+          </select>
+        </label>
+        <label>Duration
+          <select>
+            <option>Any Duration</option>
+            <option>Under 12h</option>
+            <option>12h - 18h</option>
+            <option>Above 18h</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="sort-row">
+        <strong>Sort by:</strong>
+        <button class="pill active">Earliest Departure</button>
+        <button class="pill">Fastest Journey</button>
+        <button class="pill">Lowest Fare</button>
+        <button class="pill">Best Availability</button>
+      </div>
+      </div>
+    </section>
+
+    <section class="results-wrap">
+      <header class="results-head">
+        <h1>Train Results</h1>
+        <p>Compare timings, duration, class options and availability. Select a class to book quickly.</p>
+      </header>
+
+      <article class="train-card best-option" data-classes="SL,3A,2A,1A">
+        <div class="train-id">
+          <div class="label-badge">Best Option</div>
+          <h2>12952 - Mumbai Rajdhani</h2>
+          <p>Superfast Express</p>
+        </div>
+
+        <div class="timing-grid">
+          <div><span>Departure</span><strong>16:30</strong><small>NDLS</small></div>
+          <div><span>Arrival</span><strong>08:15</strong><small>MMCT +1</small></div>
+          <div><span>Duration</span><strong>15h 45m</strong><small>Direct</small></div>
+        </div>
+
+        <div class="availability-block">
+          <span class="status available">AVAILABLE</span>
+          <div class="date-chips">
+            <span class="date-chip ok">12 Apr</span>
+            <span class="date-chip ok">13 Apr</span>
+            <span class="date-chip warn">14 Apr</span>
+          </div>
+        </div>
+
+        <div class="class-block">
+          <button class="class-pill" data-class="SL">SL | Rs 710</button>
+          <button class="class-pill active" data-class="3A">3A | Rs 1920</button>
+          <button class="class-pill" data-class="2A">2A | Rs 2785</button>
+          <button class="class-pill" data-class="1A">1A | Rs 4620</button>
+        </div>
+
+        <div class="actions">
+          <button class="ghost-btn view-details-btn">View Details</button>
+          <button class="primary-btn">Book Now</button>
+        </div>
+      </article>
+
+      <article class="train-card high-demand" data-classes="SL,3A,CC">
+        <div class="train-id">
+          <div class="label-badge demand">High Demand</div>
+          <h2>12926 - Paschim SF Express</h2>
+          <p>Superfast Express</p>
+        </div>
+
+        <div class="timing-grid">
+          <div><span>Departure</span><strong>17:35</strong><small>NDLS</small></div>
+          <div><span>Arrival</span><strong>10:40</strong><small>BCT +1</small></div>
+          <div><span>Duration</span><strong>17h 05m</strong><small>Direct</small></div>
+        </div>
+
+        <div class="availability-block">
+          <span class="status rac">RAC 18</span>
+          <div class="date-chips">
+            <span class="date-chip warn">12 Apr</span>
+            <span class="date-chip warn">13 Apr</span>
+            <span class="date-chip bad">14 Apr</span>
+          </div>
+        </div>
+
+        <div class="class-block">
+          <button class="class-pill" data-class="SL">SL | Rs 640</button>
+          <button class="class-pill" data-class="3A">3A | Rs 1710</button>
+          <button class="class-pill" data-class="CC">CC | Rs 1280</button>
+        </div>
+
+        <div class="actions">
+          <button class="ghost-btn view-details-btn">View Details</button>
+          <button class="primary-btn">Book Now</button>
+        </div>
+      </article>
+
+      <article class="train-card" data-classes="SL,3A,2A">
+        <div class="train-id">
+          <h2>12910 - Garib Rath Express</h2>
+          <p>Reserved Express</p>
+        </div>
+
+        <div class="timing-grid">
+          <div><span>Departure</span><strong>15:20</strong><small>NDLS</small></div>
+          <div><span>Arrival</span><strong>09:10</strong><small>MMCT +1</small></div>
+          <div><span>Duration</span><strong>17h 50m</strong><small>Direct</small></div>
+        </div>
+
+        <div class="availability-block">
+          <span class="status waitlist">WL 09</span>
+          <div class="date-chips">
+            <span class="date-chip warn">12 Apr</span>
+            <span class="date-chip bad">13 Apr</span>
+            <span class="date-chip bad">14 Apr</span>
+          </div>
+        </div>
+
+        <div class="class-block">
+          <button class="class-pill" data-class="SL">SL | Rs 590</button>
+          <button class="class-pill" data-class="3A">3A | Rs 1495</button>
+          <button class="class-pill" data-class="2A">2A | Rs 2320</button>
+        </div>
+
+        <div class="actions">
+          <button class="ghost-btn view-details-btn">View Details</button>
+          <button class="primary-btn">Book Now</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="mobile-details-sheet" id="mobile-details-sheet" aria-hidden="true">
+      <div class="sheet-backdrop" id="sheet-backdrop"></div>
+      <div class="sheet-panel" role="dialog" aria-label="Train details">
+        <div class="sheet-head">
+          <h2 id="sheet-train-title">Train Details</h2>
+          <button class="sheet-close" id="sheet-close" aria-label="Close details">Close</button>
+        </div>
+        <div class="sheet-body" id="sheet-body"></div>
+      </div>
+    </section>
+
+    <div class="mobile-sticky-actions" aria-label="Mobile result actions">
+      <button class="ghost-btn" id="mobile-refine-btn">Refine Filters</button>
+      <button class="primary-btn" id="mobile-continue-btn">Continue Booking</button>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Official style preserved. Layout refined for fast train comparison under time pressure.</p>
+    </div>
+  </footer>
+
+  <div class="transition-overlay" id="transition-overlay" aria-hidden="true">
+    <video id="transition-video" muted playsinline preload="auto">
+      <source src="inspiration/transition.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <script src="transition.js"></script>
+  <script src="train-results.js"></script>
+</body>
+</html>

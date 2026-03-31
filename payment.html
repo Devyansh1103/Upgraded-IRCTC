@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRCTC Payment - UX Redesign</title>
+  <link rel="stylesheet" href="payment.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="top-strip">
+    <div class="container top-strip-inner">
+      <div class="left-links">
+        <a href="index.html#support-help-section">CONTACT US</a>
+        <a href="index.html#support-help-section">HELP</a>
+      </div>
+      <div class="right-links">
+        <a href="index.html#register-card">REGISTER</a>
+        <a href="index.html#login-card">LOGIN</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand-wrap">
+        <a class="logo" href="index.html" aria-label="IRCTC Home">IRCTC</a>
+        <div class="brand-text">Indian Railway Catering and Tourism Corporation</div>
+      </div>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="index.html">Trains</a>
+        <a href="passenger-details.html">My Bookings</a>
+        <a href="train-results.html">PNR Status</a>
+        <a href="index.html#tertiary-zone-title">Support</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page-wrap" id="main-content">
+    <ol class="progress-tracker">
+      <li class="done">Search</li>
+      <li class="done">Select Train</li>
+      <li class="done">Passenger Details</li>
+      <li class="done">Review</li>
+      <li class="active">Payment</li>
+      <li>Ticket Confirmed</li>
+    </ol>
+
+    <button class="mobile-summary-toggle" id="payment-summary-toggle" aria-expanded="false" aria-controls="payment-summary-content">Show Booking Summary</button>
+
+    <section class="layout">
+      <aside class="summary-panel">
+        <div id="payment-summary-content" class="summary-panel-content">
+        <h2>Booking Summary</h2>
+        <ul>
+          <li><span>Train</span><strong>12952 - Mumbai Rajdhani</strong></li>
+          <li><span>Date</span><strong>12 Apr 2026</strong></li>
+          <li><span>Departure / Arrival</span><strong>16:30 NDLS → 08:15 MMCT +1</strong></li>
+          <li><span>Class</span><strong>3A</strong></li>
+          <li><span>Quota</span><strong>Tatkal</strong></li>
+          <li><span>Passengers</span><strong>2 Adults</strong></li>
+          <li><span>Boarding Point</span><strong>NDLS - New Delhi</strong></li>
+        </ul>
+
+        <div class="fare-box">
+          <h3>Fare Breakdown</h3>
+          <div class="fare-row"><span>Base Fare</span><strong>Rs 3,520</strong></div>
+          <div class="fare-row"><span>Reservation Charges</span><strong>Rs 120</strong></div>
+          <div class="fare-row"><span>Payment Gateway Fee</span><strong>Rs 12</strong></div>
+          <div class="fare-row total"><span>Total Payable</span><strong>Rs 3,652</strong></div>
+        </div>
+
+        <div class="trust-note">
+          Secure payment through official IRCTC-authorized gateway. Refund support is available for failed transactions.
+        </div>
+        </div>
+      </aside>
+
+      <section class="payment-panel">
+        <header class="panel-header">
+          <h1>Payment</h1>
+          <p>Select one payment method and complete payment to confirm your ticket.</p>
+        </header>
+
+        <p class="required-note"><strong>Required fields:</strong> Complete details only for the selected payment method.</p>
+
+        <div class="status-row">
+          <div class="status-card">
+            <strong>Session Active</strong>
+            <span>Booking held temporarily while payment is in progress.</span>
+          </div>
+          <div class="timer-card" id="timer-card">
+            <strong>Payment Window Remaining</strong>
+            <span id="payment-timer">09:30</span>
+          </div>
+        </div>
+
+        <section class="payment-methods">
+          <h3>Choose Payment Method</h3>
+          <div class="method-tabs" role="tablist" aria-label="Payment methods">
+            <button class="method-tab active" data-method="upi" role="tab" aria-selected="true">UPI</button>
+            <button class="method-tab" data-method="card" role="tab" aria-selected="false">Debit / Credit Cards</button>
+            <button class="method-tab" data-method="netbanking" role="tab" aria-selected="false">Net Banking</button>
+            <button class="method-tab" data-method="wallet" role="tab" aria-selected="false">Wallets / Other</button>
+          </div>
+
+          <div class="method-content">
+            <div class="method-pane active" id="pane-upi">
+              <label>UPI ID <em>*</em>
+                <input type="text" id="upi-id" placeholder="example@bank">
+              </label>
+              <p class="method-hint">Pay using any UPI app. Ticket confirmation appears after successful payment response.</p>
+            </div>
+
+            <div class="method-pane" id="pane-card">
+              <div class="card-grid">
+                <label>Card Number
+                  <input type="text" id="card-number" placeholder="XXXX XXXX XXXX XXXX">
+                </label>
+                <label>Name on Card
+                  <input type="text" id="card-name" placeholder="Card holder name">
+                </label>
+                <label>Expiry <em>*</em>
+                  <input type="text" id="card-expiry" placeholder="MM/YY">
+                </label>
+                <label>CVV <em>*</em>
+                  <input type="password" id="card-cvv" placeholder="CVV">
+                </label>
+              </div>
+            </div>
+
+            <div class="method-pane" id="pane-netbanking">
+              <label>Select Bank
+                <select id="bank-select">
+                  <option value="">Choose your bank</option>
+                  <option>SBI</option>
+                  <option>HDFC Bank</option>
+                  <option>ICICI Bank</option>
+                  <option>Axis Bank</option>
+                  <option>PNB</option>
+                </select>
+              </label>
+              <p class="method-hint">You will be redirected securely to your bank and returned after payment.</p>
+            </div>
+
+            <div class="method-pane" id="pane-wallet">
+              <label>Select Wallet / Other Method
+                <select id="wallet-select">
+                  <option value="">Choose method</option>
+                  <option>IRCTC eWallet</option>
+                  <option>Paytm</option>
+                  <option>Amazon Pay</option>
+                </select>
+              </label>
+              <p class="method-hint">Use supported wallets for quick checkout.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="reassurance-block">
+          <div class="accordion-head">
+            <h3>Before You Pay</h3>
+            <button type="button" class="accordion-toggle" id="payment-checklist-toggle" aria-expanded="true">Collapse</button>
+          </div>
+          <ul id="payment-checklist-content">
+            <li>Booking is not complete yet. Payment is required for ticket confirmation.</li>
+            <li>Do not refresh or close this page during payment processing.</li>
+            <li>After successful payment, you will see confirmation and booking details.</li>
+          </ul>
+        </section>
+
+        <p id="payment-message" class="payment-message" aria-live="polite"></p>
+
+        <div class="cta-row">
+          <button type="button" class="ghost-btn" id="payment-back-btn">Back to Review</button>
+          <button type="button" class="primary-btn" id="pay-btn">Proceed to Pay Securely</button>
+        </div>
+      </section>
+    </section>
+
+    <div class="mobile-sticky-cta" aria-label="Mobile payment actions">
+      <button type="button" class="ghost-btn" id="mobile-pay-back-btn">Back</button>
+      <button type="button" class="primary-btn" id="mobile-pay-btn">Pay Rs 3,652</button>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Official IRCTC-style payment step refined for trust, clarity, and low-stress completion.</p>
+    </div>
+  </footer>
+
+  <div class="transition-overlay" id="transition-overlay" aria-hidden="true">
+    <video id="transition-video" muted playsinline preload="auto">
+      <source src="inspiration/transition.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <script src="transition.js"></script>
+  <script src="payment.js"></script>
+</body>
+</html>

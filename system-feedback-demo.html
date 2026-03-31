@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRCTC System Feedback & Status Visibility - High-Fidelity Design</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="system-feedback.css">
+  <style>
+    /* Demo-specific styling */
+    main {
+      padding: var(--spacing-xl) 0;
+    }
+
+    .demo-section {
+      margin-top: var(--spacing-2xl);
+      padding-bottom: var(--spacing-2xl);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .demo-section:first-child {
+      margin-top: 0;
+    }
+
+    .system-header {
+      background: var(--irctc-blue);
+      color: white;
+      padding: var(--spacing-xl) 0;
+      margin-bottom: var(--spacing-2xl);
+      text-align: center;
+    }
+
+    .system-header h1 {
+      margin: 0 0 var(--spacing-md) 0;
+      font-size: 32px;
+    }
+
+    .system-header p {
+      margin: 0;
+      font-size: 16px;
+      opacity: 0.95;
+    }
+
+    .demo-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: var(--spacing-md);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-xl);
+      margin-bottom: var(--spacing-xl);
+    }
+
+    @media (max-width: 1200px) {
+      .demo-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .demo-box {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-xl);
+      background: var(--card);
+    }
+
+    .demo-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      margin-bottom: var(--spacing-md);
+      font-weight: 700;
+    }
+
+    .demo-description {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: var(--spacing-lg);
+      line-height: 1.6;
+    }
+
+    .scenario-label {
+      background: var(--irctc-blue);
+      color: white;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-block;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .nav-section {
+      background: var(--card);
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-xl);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+    }
+
+    .nav-section h2 {
+      margin: 0 0 var(--spacing-md) 0;
+      font-size: 16px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-md);
+    }
+
+    .nav-links a {
+      display: inline-block;
+      padding: var(--spacing-sm) var(--spacing-md);
+      background: var(--irctc-blue);
+      color: white;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      background: var(--irctc-dark-blue);
+      transform: translateY(-2px);
+    }
+
+    .state-preview {
+      background: var(--irctc-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-lg);
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .state-preview.small {
+      min-height: 100px;
+      justify-content: flex-start;
+    }
+
+    footer {
+      background: var(--irctc-dark-blue);
+      color: white;
+      padding: var(--spacing-xl) 0;
+      margin-top: var(--spacing-2xl);
+      text-align: center;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    footer p + p {
+      margin-top: var(--spacing-sm);
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--spacing-md) 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .info-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .system-details {
+      background: var(--irctc-bg);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-lg);
+      margin-top: var(--spacing-lg);
+    }
+  </style>
+</head>
+<body>
+  <div class="top-strip">
+    <div class="container top-strip-inner">
+      <div class="left-links">
+        <a href="#">AGENT LOGIN</a>
+        <a href="#">CONTACT US</a>
+        <a href="#">HELP</a>
+      </div>
+      <div class="right-links">
+        <a href="#">REGISTER</a>
+        <a href="#">LOGIN</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand-wrap">
+        <div class="logo">IRCTC</div>
+        <div class="brand-text">Indian Railway Catering and Tourism Corporation</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="system-header">
+    <div class="container">
+      <h1>System Feedback & Status Visibility</h1>
+      <p>High-Fidelity Design System for Loading, Processing & Confirmation States</p>
+    </div>
+  </div>
+
+  <main>
+    <div class="container">
+      <!-- Navigation -->
+      <div class="nav-section">
+        <h2>Quick Navigation</h2>
+        <div class="nav-links">
+          <a href="#searching">Searching Trains</a>
+          <a href="#loading-availability">Loading Availability</a>
+          <a href="#processing">Processing Steps</a>
+          <a href="#confirmation">Confirmation States</a>
+          <a href="#inline-states">Inline Loading</a>
+          <a href="#skeleton">Skeleton Placeholders</a>
+          <a href="#progress">Progress Indicators</a>
+          <a href="#success">Success States</a>
+          <a href="#toasts">Notifications</a>
+        </div>
+      </div>
+
+      <!-- ========================================
+           SCENARIO 1: SEARCHING TRAINS
+           ======================================== -->
+      <section class="demo-section" id="searching">
+        <h2 class="demo-title">🔍 Searching Trains - Initial Loading</h2>
+        <p style="color: var(--muted); margin-bottom: var(--spacing-lg);">
+          User has entered search criteria and clicked search. System is fetching available trains.
+        </p>
+
+        <div class="demo-box">
+          <small class="scenario-label">Initial Search Loading</small>
+
+          <!-- Context preserved during loading -->
+          <div class="context-card processing">
+            <div class="info-row">
+              <span class="info-label">From Station</span>
+              <span class="info-value">Delhi (NDLS)</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">To Station</span>
+              <span class="info-value">Mumbai (MMCT)</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Date</span>
+              <span class="info-value">3 April 2026</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Class</span>
+              <span class="info-value">3A AC</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Status</span>
+              <span class="context-status processing">
+                <span class="spinner sm"></span>
+                Searching trains...
+              </span>
+            </div>
+          </div>
+
+          <!-- Loading state overlay on results area -->
+          <div class="state-preview" style="margin-top: var(--spacing-lg);">
+            <div style="text-align: center;">
+              <div class="spinner lg" style="margin: 0 auto var(--spacing-lg);"></div>
+              <h3 style="font-size: 16px; font-weight: 700; color: var(--text); margin: 0 0 var(--spacing-xs) 0;">
+                Searching Available Trains
+              </h3>
+              <p style="color: var(--muted); font-size: 14px; margin: 0 0 var(--spacing-md) 0;">
+                Please wait while we fetch the best options for you...
+              </p>
+              <div class="estimated-time">
+                ⏱️ This usually takes
+                <strong>3-5 seconds</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           SCENARIO 2: LOADING SEAT AVAILABILITY
+           ======================================== -->
+      <section class="demo-section" id="loading-availability">
+        <h2 class="demo-title">💺 Loading Seat Availability - Train Selected</h2>
+        <p style="color: var(--muted); margin-bottom: var(--spacing-lg);">
+          User clicked on a train. System fetches seat map and availability for selected class.
+        </p>
+
+        <div class="demo-grid">
+          <!-- Train Info Preserved -->
+          <div class="demo-box">
+            <small class="scenario-label">Context Visible During Load</small>
+
+            <div class="context-card processing">
+              <div class="info-row">
+                <span class="info-label">Train</span>
+                <span class="info-value">Rajdhani Express (12002)</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Departure</span>
+                <span class="info-value">20:15 IST</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Arrival</span>
+                <span class="info-value">08:30 IST (+1)</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Fare</span>
+                <span class="info-value">₹2,850</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Status</span>
+                <span class="context-status processing">
+                  <span class="spinner sm"></span>
+                  Loading availability...
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loading Animation -->
+          <div class="demo-box">
+            <small class="scenario-label">Loading Indicator</small>
+
+            <div class="state-preview">
+              <div style="text-align: center; width: 100%;">
+                <div style="display: flex; justify-content: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-lg);">
+                  <div class="loading-dot"></div>
+                  <div class="loading-dot"></div>
+                  <div class="loading-dot"></div>
+                </div>
+                <p style="color: var(--muted); font-size: 14px; margin: 0;">
+                  Fetching seat map...
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           SCENARIO 3: PROCESSING MULTIPLE STEPS
+           ======================================== -->
+      <section class="demo-section" id="processing">
+        <h2 class="demo-title">⏳ Processing Booking Steps - Multi-Step Progress</h2>
+        <p style="color: var(--muted); margin-bottom: var(--spacing-lg);">
+          User is in the middle of booking. Multiple steps being processed sequentially. Show step tracker and progress.
+        </p>
+
+        <div class="demo-box">
+          <small class="scenario-label">Step Tracker with Progress</small>
+
+          <!-- Step Tracker -->
+          <div style="margin-bottom: var(--spacing-xl);">
+            <div class="step-tracker">
+              <div class="step-item completed">
+                <div class="step-circle">✓</div>
+                <div class="step-label">Train Selected</div>
+              </div>
+              <div class="step-item completed">
+                <div class="step-circle">✓</div>
+                <div class="step-label">Seats Picked</div>
+              </div>
+              <div class="step-item active">
+                <div class="step-circle">3</div>
+                <div class="step-label">Passenger Info</div>
+              </div>
+              <div class="step-item inactive">
+                <div class="step-circle">4</div>
+                <div class="step-label">Payment</div>
+              </div>
+              <div class="step-item inactive">
+                <div class="step-circle">5</div>
+                <div class="step-label">Confirm</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Progress indicator -->
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-xs);">
+              <span style="font-size: 13px; font-weight: 600; color: var(--text);">Overall Progress</span>
+              <span class="progress-percentage">60%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-bar-fill" style="width: 60%;"></div>
+            </div>
+          </div>
+
+          <!-- Current step context -->
+          <div class="loading-state">
+            <span class="loading-dot" style="display: inline-block; margin-right: var(--spacing-sm);"></span>
+            <div class="loading-state-content">
+              <h3 class="loading-state-title">Validating Passenger Information</h3>
+              <p class="loading-state-description">We're verifying your details against our database. This helps prevent fraud and ensures smooth booking.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           SCENARIO 4: PAYMENT PROCESSING
+           ======================================== -->
+      <section class="demo-section" id="confirmation">
+        <h2 class="demo-title">💳 Processing Payment - Securing Transaction</h2>
+        <p style="color: var(--muted); margin-bottom: var(--spacing-lg);">
+          User is at payment step. System is securing the transaction and confirming with bank.
+        </p>
+
+        <div class="demo-grid">
+          <!-- Payment Context Preserved -->
+          <div class="demo-box">
+            <small class="scenario-label">Payment Details During Processing</small>
+
+            <div class="context-card processing">
+              <div class="info-row">
+                <span class="info-label">Passengers</span>
+                <span class="info-value">2 Passengers</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Base Fare</span>
+                <span class="info-value">₹2,450 × 2 = ₹4,900</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Taxes & Charges</span>
+                <span class="info-value">₹740</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Total Amount</span>
+                <span class="info-value" style="color: var(--irctc-blue); font-size: 16px;">₹5,640</span>
+              </div>
+              <div class="info-row" style="border-top: 2px solid var(--border); padding-top: var(--spacing-md); margin-top: var(--spacing-md);">
+                <span class="info-label">Payment Status</span>
+                <span class="context-status processing">
+                  <span class="spinner sm"></span>
+                  Securing payment...
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Processing Steps -->
+          <div class="demo-box">
+            <small class="scenario-label">Payment Processing Timeline</small>
+
+            <div style="display: flex; flex-direction: column; gap: var(--spacing-md);">
+              <!-- Step 1: Processing -->
+              <div style="display: flex; gap: var(--spacing-md); align-items: flex-start;">
+                <div style="flex-shrink: 0;">
+                  <div class="spinner sm"></div>
+                </div>
+                <div style="flex: 1;">
+                  <p style="font-size: 13px; font-weight: 600; color: var(--text); margin: 0 0 var(--spacing-xs) 0;">
+                    Preparing payment gateway
+                  </p>
+                  <p style="font-size: 12px; color: var(--muted); margin: 0;">
+                    Setting up secure connection...
+                  </p>
+                </div>
+              </div>
+
+              <!-- Step 2: Waiting -->
+              <div style="display: flex; gap: var(--spacing-md); align-items: flex-start;">
+                <div style="flex-shrink: 0;">
+                  <div class="spinner sm"></div>
+                </div>
+                <div style="flex: 1;">
+                  <p style="font-size: 13px; font-weight: 600; color: var(--text); margin: 0 0 var(--spacing-xs) 0;">
+                    Contacting your bank
+                  </p>
+                  <p style="font-size: 12px; color: var(--muted); margin: 0;">
+                    Awaiting authorization...
+                  </p>
+                </div>
+              </div>
+
+              <!-- Step 3: Pending -->
+              <div style="display: flex; gap: var(--spacing-md); align-items: flex-start; opacity: 0.5;">
+                <div style="flex-shrink: 0; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border);"></div>
+                <div style="flex: 1;">
+                  <p style="font-size: 13px; font-weight: 600; color: var(--muted); margin: 0 0 var(--spacing-xs) 0;">
+                    Confirming transaction
+                  </p>
+                  <p style="font-size: 12px; color: var(--muted); margin: 0;">
+                    Pending...
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <p style="font-size: 12px; color: var(--muted); margin-top: var(--spacing-lg); padding-top: var(--spacing-lg); border-top: 1px solid var(--border);">
+              ⏱️ Do not close this window or navigate away. Processing usually takes 30-60 seconds.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           SCENARIO 5: INLINE LOADING STATES
+           ======================================== -->
+      <section class="demo-section" id="inline-states">
+        <h2 class="demo-title">📍 Inline Loading States - Context-Aware Feedback</h2>
+        <p style="color: var(--muted); margin-bottom: var(--spacing-lg);">
+          Non-blocking loading states that indicate processing without disrupting the form.
+        </p>
+
+        <div style="display: grid; gap: var(--spacing-lg);">
+          <div class="demo-box">
+            <small class="scenario-label">Fetching Station List</small>
+            <div class="loading-state">
+              <span class="loading-state-icon">
+                <span class="spinner sm" style="display: inline-block;"></span>
+              </span>
+              <div class="loading-state-content">
+                <h3 class="loading-state-title">Fetching Station Information</h3>
+                <p class="loading-state-description">We're retrieving available stations for your route. Please wait...</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo-box">
+            <small class="scenario-label">Calculating Fares</small>
+            <div class="loading-state">
+              <span class="loading-state-icon">
+                <span class="spinner sm" style="display: inline-block;"></span>
+              </span>
+              <div class="loading-state-content">
+                <h3 class="loading-state-title">Calculating Fares</h3>
+                <p class="loading-state-description">Computing optimal fares for your selected dates and class. This takes a moment...</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo-box">
+            <small class="scenario-label">Verifying Eligibility</small>
+            <div class="loading-state">
+              <span class="loading-state-icon">
+                <span class="spinner sm" style="display: inline-block;"></span>
+              </span>
+              <div class="loading-state-content">
+                <h3 class="loading-state-title">Verifying Eligibility for Senior Citizen Quota</h3>
+                <p class="loading-state-description">Checking your eligibility for special quotas and concessions...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           SCENARIO 6: SKELETON PLACEHOLDERS
+           ======================================== -->
+      <section class="demo-section" id="skeleton">
+        <h2 class="demo-title">🦴 Skeleton Loading - Progressive Content</h2>
+        <p style="color: var(--muted); margin-bottom: var(--spacing-lg);">
+          While fetching seat availability, show skeleton placeholders that match the final layout.
+        </p>
+
+        <div class="demo-box">
+          <small class="scenario-label">Seat Map Loading Skeleton</small>
+
+          <div style="margin-bottom: var(--spacing-lg);">
+            <div class="skeleton-heading" style="width: 40%; margin-bottom: var(--spacing-lg);"></div>
+
+            <!-- Skeleton train cards -->
+            <div style="display: grid; gap: var(--spacing-md);">
+              <div class="skeleton-card"></div>
+              <div class="skeleton-card"></div>
+              <div class="skeleton-card"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="demo-box" style="margin-top: var(--spacing-lg);">
+          <small class="scenario-label">Passenger Form Skeleton</small>
+
+          <div style="display: grid; gap: var(--spacing-md);">
+            <div>
+              <div class="skeleton-text" style="width: 30%; margin-bottom: var(--spacing-sm);"></div>
+              <div class="skeleton-text"></div>
+            </div>
+            <div>
+              <div class="skeleton-text" style="width: 30%; margin-bottom: var(--spacing-sm);"></div>
+              <div class="skeleton-text"></div>
+            </div>
+            <div>
+              <div class="skeleton-button"></div>
+              <div class="skeleton-button"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           SCENARIO 7: PROGRESS INDICATORS
+           ======================================== -->
+      <section class="demo-section" id="progress">
+        <h2 class="demo-title">📊 Progress Indicators - Multi-Task Progress</h2>
+        <p style="color: var(--muted); margin-bottom: var(--spacing-lg);">
+          Show detailed progress for operations that can take time (e.g., batch ticket processing).
+        </p>
+
+        <div class="demo-grid">
+          <div class="demo-box">
+            <small class="scenario-label">Linear Progress Bar</small>
+
+            <div style="margin-bottom: var(--spacing-xl);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-xs);">
+                <span style="font-size: 13px; font-weight: 600; color: var(--text);">Processing 15 Bookings</span>
+                <span class="progress-percentage">73%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-bar-fill" style="width: 73%;"></div>
+              </div>
+              <p style="font-size: 12px; color: var(--muted); margin: var(--spacing-sm) 0 0 0;">
+                Processed 11 of 15 bookings. Estimated time: 2 minutes
+              </p>
+            </div>
+          </div>
+
+          <div class="demo-box">
+            <small class="scenario-label">Circular Progress</small>
+
+            <div style="display: flex; flex-direction: column; align-items: center; gap: var(--spacing-lg);">
+              <svg width="100" height="100" style="transform: rotate(-90deg);">
+                <circle cx="50" cy="50" r="40" fill="none" stroke="var(--border)" stroke-width="4"></circle>
+                <circle cx="50" cy="50" r="40" fill="none" stroke="var(--irctc-blue)" stroke-width="4" stroke-dasharray="188.4" stroke-dashoffset="47.1" stroke-linecap="round" style="animation: spin 3s linear infinite;"></circle>
+              </svg>
+              <div style="text-align: center;">
+                <p style="font-size: 16px; font-weight: 700; color: var(--text); margin: 0;">55%</p>
+                <p style="font-size: 12px; color: var(--muted); margin: var(--spacing-xs) 0 0 0;">Processing...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           SCENARIO 8: SUCCESS STATES
+           ======================================== -->
+      <section class="demo-section" id="success">
+        <h2 class="demo-title">✅ Success States - Completion Confirmation</h2>
+        <p style="color: var(--muted); margin-bottom: var(--spacing-lg);">
+          Clear, positive confirmation when a step or entire booking is completed successfully.
+        </p>
+
+        <div class="demo-grid">
+          <div class="demo-box">
+            <small class="scenario-label">Step Completed (Passenger Info)</small>
+
+            <div class="success-state" style="margin-bottom: var(--spacing-lg);">
+              <div class="success-icon">✓</div>
+              <h3 class="success-headline">Passenger Details Saved</h3>
+              <p class="success-message">
+                Your passenger information has been verified and saved. Ready to proceed to payment.
+              </p>
+            </div>
+          </div>
+
+          <div class="demo-box">
+            <small class="scenario-label">Payment Processed (Success)</small>
+
+            <div class="success-state">
+              <div class="success-icon">✓</div>
+              <h3 class="success-headline">Payment Received Successfully</h3>
+              <p class="success-message">
+                Your payment has been processed and confirmed by your bank.
+              </p>
+
+              <div class="success-details">
+                <div class="success-detail-row">
+                  <span class="success-detail-label">Transaction ID</span>
+                  <span class="success-detail-value">TXN-2026-456789</span>
+                </div>
+                <div class="success-detail-row">
+                  <span class="success-detail-label">Amount</span>
+                  <span class="success-detail-value">₹5,640</span>
+                </div>
+                <div class="success-detail-row">
+                  <span class="success-detail-label">Time</span>
+                  <span class="success-detail-value">14:32 IST</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="demo-box" style="margin-top: var(--spacing-lg);">
+          <small class="scenario-label">Full Booking Completion</small>
+
+          <div class="success-state">
+            <div class="success-icon" style="font-size: 56px;">✓</div>
+            <h3 class="success-headline" style="font-size: 24px; margin-bottom: var(--spacing-md);">
+              Your Ticket Has Been Booked Successfully!
+            </h3>
+            <p class="success-message" style="font-size: 15px; margin-bottom: var(--spacing-lg);">
+              Congratulations! Your train ticket booking is confirmed. Your e-ticket has been sent to your email.
+            </p>
+
+            <div class="success-details">
+              <div class="success-detail-row">
+                <span class="success-detail-label">Booking Reference</span>
+                <span class="success-detail-value">KXMN78</span>
+              </div>
+              <div class="success-detail-row">
+                <span class="success-detail-label">Train</span>
+                <span class="success-detail-value">Rajdhani Express (12002)</span>
+              </div>
+              <div class="success-detail-row">
+                <span class="success-detail-label">Date</span>
+                <span class="success-detail-value">3 April 2026</span>
+              </div>
+              <div class="success-detail-row">
+                <span class="success-detail-label">Seats</span>
+                <span class="success-detail-value">3A/41, 3A/42</span>
+              </div>
+              <div class="success-detail-row">
+                <span class="success-detail-label">Total Amount</span>
+                <span class="success-detail-value" style="color: var(--status-success); font-size: 16px;">₹5,640</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           SCENARIO 9: NOTIFICATIONS / TOASTS
+           ======================================== -->
+      <section class="demo-section" id="toasts">
+        <h2 class="demo-title">🔔 Notifications & Toasts - Real-Time Updates</h2>
+        <p style="color: var(--muted); margin-bottom: var(--spacing-lg);">
+          Subtle, non-intrusive notifications for real-time feedback (seat availability changes, session warnings, etc.).
+        </p>
+
+        <div style="display: grid; gap: var(--spacing-lg);">
+          <!-- Toast: Processing -->
+          <div class="demo-box">
+            <small class="scenario-label">Processing Notification</small>
+
+            <div class="toast loading">
+              <div class="toast-header">
+                <span class="toast-icon" style="display: inline-block;">
+                  <span class="spinner sm"></span>
+                </span>
+                <h4 class="toast-title">Processing Payment</h4>
+              </div>
+              <p class="toast-message">Contacting payment gateway. Please don't close this window.</p>
+            </div>
+          </div>
+
+          <!-- Toast: Success -->
+          <div class="demo-box">
+            <small class="scenario-label">Success Notification</small>
+
+            <div class="toast success">
+              <div class="toast-header">
+                <span class="toast-icon">✓</span>
+                <h4 class="toast-title">Payment Successful</h4>
+              </div>
+              <p class="toast-message">Your payment has been processed. Your booking is now confirmed.</p>
+            </div>
+          </div>
+
+          <!-- Toast: Info -->
+          <div class="demo-box">
+            <small class="scenario-label">Info Notification</small>
+
+            <div class="toast" style="border-left-color: var(--irctc-blue);">
+              <div class="toast-header">
+                <span class="toast-icon">ℹ️</span>
+                <h4 class="toast-title">Seats  Running Out</h4>
+              </div>
+              <p class="toast-message">Only 3 seats remaining in your selected class. Book now before they're gone!</p>
+            </div>
+          </div>
+
+          <!-- Toast: Warning -->
+          <div class="demo-box">
+            <small class="scenario-label">Warning Notification</small>
+
+            <div class="toast" style="border-left-color: #f57c00;">
+              <div class="toast-header">
+                <span class="toast-icon">⚠️</span>
+                <h4 class="toast-title">Session Expiring Soon</h4>
+              </div>
+              <p class="toast-message">Your session will expire in 5 minutes. Please complete your booking.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           DESIGN SYSTEM SUMMARY
+           ======================================== -->
+      <section class="demo-section" style="border-bottom: none;">
+        <h2 class="demo-title">📐 Design System Components & Usage</h2>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-lg);">
+          <div class="demo-box">
+            <h3 style="margin-top: 0;">Loaders & Spinners</h3>
+            <div style="display: flex; gap: var(--spacing-md); align-items: center; padding: var(--spacing-lg); background: var(--irctc-bg); border-radius: var(--radius-md);">
+              <div class="spinner"></div>
+              <div class="spinner sm"></div>
+              <div class="spinner lg"></div>
+              <div style="display: flex; gap: var(--spacing-xs);">
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo-box">
+            <h3 style="margin-top: 0;">Progress Indicators</h3>
+            <div style="padding: var(--spacing-lg); background: var(--irctc-bg); border-radius: var(--radius-md);">
+              <div class="progress-bar" style="margin: 0;">
+                <div class="progress-bar-fill" style="width: 65%;"></div>
+              </div>
+              <p style="font-size: 12px; color: var(--muted); margin: var(--spacing-md) 0 0 0; text-align: center;">
+                65% Complete
+              </p>
+            </div>
+          </div>
+
+          <div class="demo-box">
+            <h3 style="margin-top: 0;">Status Badges</h3>
+            <div style="display: flex; flex-direction: column; gap: var(--spacing-sm); padding: var(--spacing-lg); background: var(--irctc-bg); border-radius: var(--radius-md);">
+              <span class="status-badge processing">
+                <span class="spinner sm" style="display: inline-block;"></span>
+                Processing
+              </span>
+              <span class="status-badge success">
+                ✓ Success
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="demo-box" style="margin-top: var(--spacing-lg);">
+          <h3 style="margin-top: 0;">🏆 UX Principles Applied</h3>
+          <ul style="color: var(--text); line-height: 1.8;">
+            <li><strong>Always Communicating:</strong> Users always know what the system is doing</li>
+            <li><strong>Context Preserved:</strong> Important info stays visible during loading</li>
+            <li><strong>Reassuring Tone:</strong> Clear, helpful messaging reduces anxiety</li>
+            <li><strong>Visual Feedback:</strong> Animations and indicators confirm progress</li>
+            <li><strong>Time Expectations:</strong> Estimated time helps manage user expectations</li>
+            <li><strong>Progressive Loading:</strong> Skeleton states match final layout</li>
+            <li><strong>Non-Blocking:</strong> Inline states don't interrupt the experience</li>
+            <li><strong>Brand Consistent:</strong> All feedback uses IRCTC colors and style</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>IRCTC System Feedback & Status Visibility | High-Fidelity Design | 2026</p>
+      <p>Preserves IRCTC brand identity while improving system transparency and user confidence</p>
+    </div>
+  </footer>
+
+  <script>
+    // Auto-progress demo
+    function animateProgressBars() {
+      document.querySelectorAll('.progress-bar-fill').forEach(bar => {
+        if (bar.style.width && bar.style.width !== '100%') {
+          let current = parseInt(bar.style.width);
+          const interval = setInterval(() => {
+            current += Math.random() * 5;
+            if (current >= 100) {
+              current = 100;
+              clearInterval(interval);
+            }
+            bar.style.width = current + '%';
+          }, 2000);
+        }
+      });
+    }
+
+    window.addEventListener('load', animateProgressBars);
+  </script>
+</body>
+</html>

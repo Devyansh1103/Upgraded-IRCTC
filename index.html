@@ -1,0 +1,409 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRCTC UX Redesign Prototype</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="home-page" data-intro-transition="true">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="header-stack">
+    <div class="top-strip">
+      <div class="container top-strip-inner">
+        <div class="left-links">
+          <a href="#support-help-section">CONTACT US</a>
+          <a href="#support-help-section">HELP</a>
+        </div>
+        <div class="right-links">
+          <a href="#register-card">REGISTER</a>
+          <a href="#login-card">LOGIN</a>
+        </div>
+      </div>
+    </div>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand-wrap">
+          <a class="logo" href="index.html" aria-label="IRCTC Home">IRCTC</a>
+          <div class="brand-text">Indian Railway Catering and Tourism Corporation</div>
+        </div>
+        <nav class="main-nav" aria-label="Primary">
+          <div class="nav-item active-group">
+            <a href="#homepage" aria-current="page">Book</a>
+            <div class="nav-submenu" aria-label="Book tasks">
+              <a href="#homepage">Train Booking</a>
+              <a href="train-results.html">Tatkal Booking</a>
+              <a href="#homepage">Plan New Journey</a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <a href="#utility-dashboard">My Trips</a>
+            <div class="nav-submenu" aria-label="My trips tasks">
+              <a href="passenger-details.html">My Bookings</a>
+              <a href="#utility-dashboard">Booking History</a>
+              <a href="payment.html">Cancel Ticket</a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <a href="train-results.html">Status</a>
+            <div class="nav-submenu" aria-label="Status tasks">
+              <a href="train-results.html">PNR Status</a>
+              <a href="payment.html">Refund Status</a>
+              <a href="train-results.html">Train Schedule</a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <a href="#tertiary-zone-title">Support</a>
+            <div class="nav-submenu" aria-label="Support tasks">
+              <a href="#tertiary-zone-title">Help Center</a>
+              <a href="#tertiary-zone-title">Travel Advisory</a>
+              <a href="#tertiary-zone-title">Contact Support</a>
+            </div>
+          </div>
+          <div class="nav-item nav-more">
+            <a href="#services-group">More Services</a>
+            <div class="nav-submenu service-menu" aria-label="Secondary travel services">
+              <a href="#services-group">Flights</a>
+              <a href="#services-group">Hotels</a>
+              <a href="#services-group">Buses</a>
+              <a href="#services-group">Tourism</a>
+              <a href="#services-group">Lounge</a>
+              <a href="#services-group">Retiring Room</a>
+              <a href="#services-group">Meals</a>
+            </div>
+          </div>
+        </nav>
+        <img class="header-logo-image" src="inspiration/logo.png" alt="" aria-hidden="true" onerror="this.style.display='none'">
+      </div>
+    </header>
+
+    <div class="nav-utility-strip">
+      <div class="container nav-utility-inner">
+        <strong>Quick Task Access:</strong>
+        <a href="#homepage">Train Booking</a>
+        <a href="passenger-details.html">My Bookings</a>
+        <a href="train-results.html">PNR Status</a>
+        <a href="payment.html">Refund Status</a>
+        <a href="train-results.html">Train Schedule</a>
+        <a href="#tertiary-zone-title">Help / Support</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
+    <section class="container hero priority-zone primary-zone" id="homepage" aria-labelledby="primary-zone-title">
+      <div class="zone-header">
+        <div>
+          <h1 id="primary-zone-title">Book Train Tickets</h1>
+          <p class="subtitle">Fast, clear, and reliable booking for regular and Tatkal journeys.</p>
+        </div>
+      </div>
+
+      <div class="primary-layout">
+        <div class="booking-card">
+          <div class="booking-grid">
+            <label>
+              <span>From Station <em>*</em></span>
+              <input id="from-station" type="text" placeholder="Enter source station" aria-required="true">
+            </label>
+            <button class="swap-btn" aria-label="Swap stations" title="Swap stations">
+              <svg class="swap-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M8 7h11l-3-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 17H5l3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <label>
+              <span>To Station <em>*</em></span>
+              <input id="to-station" type="text" placeholder="Enter destination station" aria-required="true">
+            </label>
+            <label>
+              <span>Journey Date <em>*</em></span>
+              <input id="journey-date" type="date" aria-required="true">
+            </label>
+            <label>
+              <span>Class</span>
+              <select id="travel-class">
+                <option>All Classes</option>
+                <option>SL</option>
+                <option>3A</option>
+                <option>2A</option>
+                <option>1A</option>
+                <option>CC</option>
+              </select>
+            </label>
+            <label>
+              <span>Quota</span>
+              <select id="quota">
+                <option value="" selected disabled>Select Quota</option>
+                <option>General</option>
+                <option>Tatkal</option>
+                <option>Ladies</option>
+                <option>Senior Citizen</option>
+              </select>
+            </label>
+          </div>
+          <div class="helper-row">
+            <div class="chip-group">
+              <strong>Recent:</strong>
+              <button class="chip route-chip" data-route="NDLS|BCT">NDLS -> BCT</button>
+              <button class="chip route-chip" data-route="SBC|MAS">SBC -> MAS</button>
+            </div>
+          </div>
+          <div class="booking-helper-strip" aria-label="Frequent booking helpers">
+            <span class="helper-label">Repeat Booking Helpers:</span>
+            <button class="ghost-btn helper-btn" id="save-current-route-btn" type="button">Save This Route</button>
+            <button class="ghost-btn helper-btn" id="apply-tatkal-btn" type="button">Tatkal Quick Access</button>
+            <a href="#utility-dashboard" class="helper-link">Open Utility Panel</a>
+          </div>
+          <div class="cta-row">
+            <div class="cta-group">
+              <button class="primary-btn" id="search-btn">Search Trains</button>
+            </div>
+            <p class="form-message" id="search-message" aria-live="polite"></p>
+          </div>
+        </div>
+
+        <aside class="priority-rail" aria-label="Main task guidance">
+          <h2>What to Do First</h2>
+          <ol>
+            <li>Enter From, To, and Journey Date.</li>
+            <li>Click Search Trains.</li>
+            <li>Select train and continue booking.</li>
+          </ol>
+          <div class="rail-note">Important travel information and extra services are kept below to reduce distraction during booking.</div>
+        </aside>
+      </div>
+
+      <section class="booking-flow" id="booking-flow">
+        <div class="section-title-wrap">
+          <h2>Booking Progress</h2>
+          <p class="subtitle">A guided step-by-step flow that keeps users informed and calm.</p>
+        </div>
+
+        <ol class="progress-tracker" id="progress-tracker">
+          <li class="done">Search</li>
+          <li class="active">Select Train</li>
+          <li>Passenger Details</li>
+          <li>Review</li>
+          <li>Payment</li>
+          <li>Ticket Confirmed</li>
+        </ol>
+
+        <div class="flow-layout">
+          <div class="flow-main">
+            <h3 id="step-title">Step 2: Select Train</h3>
+            <p class="status-line" id="flow-status">Loading availability for your selected date...</p>
+            <div class="loader" aria-hidden="true"></div>
+
+            <article class="train-card selected">
+              <div>
+                <strong>12952 - Mumbai Rajdhani</strong>
+                <p>16:30 NDLS -> 08:15 MMCT</p>
+              </div>
+              <div class="train-meta">
+                <span>3A: AVAILABLE 24</span>
+                <button class="primary-btn small" id="continue-btn">Continue</button>
+              </div>
+            </article>
+
+            <div class="feedback good" id="flow-feedback">Great choice. Next: Add passenger details and review before payment.</div>
+            <div class="flow-actions">
+              <button class="ghost-btn inline" id="back-step-btn">Back</button>
+              <button class="primary-btn small" id="next-step-btn">Go To Next Step</button>
+            </div>
+          </div>
+
+          <aside class="flow-side">
+            <h4>Booking Context</h4>
+            <ul>
+              <li>From: New Delhi</li>
+              <li>To: Mumbai Central</li>
+              <li>Date: 12 Apr 2026</li>
+              <li>Quota: Tatkal</li>
+            </ul>
+            <div class="session">Booking session active: 08:42 remaining</div>
+            <button class="ghost-btn" id="review-btn">Review Before Payment</button>
+            <p class="checkpoint-note" id="checkpoint-note">You are on step 2 of 6. You are almost done once review is completed.</p>
+          </aside>
+        </div>
+      </section>
+    </section>
+
+    <section class="container priority-zone secondary-zone" aria-labelledby="secondary-zone-title">
+      <div class="zone-header compact">
+        <div>
+          <h2 id="secondary-zone-title">Task Navigation and Related Services</h2>
+        </div>
+      </div>
+
+      <section class="quick-actions" id="auth-access">
+        <h3>Account Access</h3>
+        <div class="action-grid auth-action-grid">
+          <button type="button" class="action-card" id="login-card">LOGIN</button>
+          <button type="button" class="action-card" id="register-card">REGISTER</button>
+        </div>
+      </section>
+
+      <section class="utility-dashboard" id="utility-dashboard" aria-labelledby="utility-title">
+        <div class="utility-head">
+          <h3 id="utility-title">Repeat Booking Utilities</h3>
+          <p class="subtle-note">Practical shortcuts for frequent users. These helpers reduce repetitive entry without replacing the main booking flow.</p>
+        </div>
+
+        <div class="utility-grid">
+          <article class="utility-card" aria-labelledby="recent-searches-title">
+            <div class="utility-card-head">
+              <h4 id="recent-searches-title">Recent Searches</h4>
+              <button type="button" class="mini-link" id="clear-recent-btn">Clear</button>
+            </div>
+            <ul id="recent-searches-list" class="utility-list"></ul>
+          </article>
+
+          <article class="utility-card" aria-labelledby="saved-routes-title">
+            <h4 id="saved-routes-title">Saved Routes and Preferred Stations</h4>
+            <ul id="saved-routes-list" class="utility-list"></ul>
+            <div class="preferred-wrap">
+              <strong>Preferred Stations</strong>
+              <div id="preferred-stations-list" class="pill-row"></div>
+            </div>
+          </article>
+
+          <article class="utility-card" aria-labelledby="saved-passengers-title">
+            <h4 id="saved-passengers-title">Saved Passengers</h4>
+            <ul id="saved-passengers-list" class="utility-list"></ul>
+            <button type="button" class="ghost-btn compact" id="open-passenger-page-btn">Open Passenger Details</button>
+          </article>
+
+          <article class="utility-card" aria-labelledby="last-booking-title">
+            <h4 id="last-booking-title">My Last Booking</h4>
+            <p id="last-booking-summary" class="utility-summary">No recent booking available yet.</p>
+            <button type="button" class="ghost-btn compact" id="repeat-last-booking-btn">Use Last Booking Details</button>
+          </article>
+
+          <article class="utility-card" aria-labelledby="resume-booking-title">
+            <h4 id="resume-booking-title">Resume Incomplete Booking</h4>
+            <p id="resume-status" class="utility-summary">No incomplete booking found.</p>
+            <div class="mini-actions">
+              <button type="button" class="primary-btn small" id="resume-booking-btn">Resume</button>
+              <button type="button" class="ghost-btn compact" id="discard-resume-btn">Discard</button>
+            </div>
+          </article>
+
+          <article class="utility-card" aria-labelledby="support-shortcuts-title">
+            <h4 id="support-shortcuts-title">Support Shortcuts</h4>
+            <div class="shortcut-grid">
+              <a href="payment.html" class="action-card compact-action">Refund / Failure Status</a>
+              <a href="passenger-details.html" class="action-card compact-action">Booking History</a>
+              <a href="train-results.html" class="action-card compact-action">Tatkal Trains</a>
+              <a href="payment.html" class="action-card compact-action">Pending Payments</a>
+            </div>
+          </article>
+        </div>
+        <p class="utility-message" id="utility-message" aria-live="polite"></p>
+      </section>
+
+      <section class="quick-actions">
+        <h3>Core Task Shortcuts</h3>
+        <div class="action-grid">
+          <a href="train-results.html" class="action-card">Book Ticket</a>
+          <a href="train-results.html" class="action-card">PNR Status</a>
+          <a href="train-results.html" class="action-card">Train Schedule</a>
+          <a href="payment.html" class="action-card">Cancel Ticket</a>
+          <a href="passenger-details.html" class="action-card">My Bookings</a>
+          <a href="payment.html" class="action-card">Refund Status</a>
+        </div>
+      </section>
+
+      <section class="services" id="services-group">
+  <h3>More Services</h3>
+  <p class="subtle-note">Secondary travel services are grouped here for easy access while keeping core rail tasks dominant.</p>
+  <div class="service-strip" aria-label="More services group">
+          <button class="service-tab active">Flights</button>
+          <button class="service-tab">Hotels</button>
+          <button class="service-tab">Buses</button>
+          <button class="service-tab">Tourism</button>
+          <button class="service-tab">Meals</button>
+          <button class="service-tab">Lounge</button>
+          <button class="service-tab">Retiring Room</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="container priority-zone tertiary-zone" aria-labelledby="tertiary-zone-title">
+      <div class="zone-header compact">
+        <div>
+          <h2 id="tertiary-zone-title">Notices, Offers and Additional Information</h2>
+        </div>
+      </div>
+
+      <section class="notices">
+        <div class="notice-column">
+          <h3>Official Notices</h3>
+          <ul>
+            <li>Booking opens at 10:00 AM for AC classes under Tatkal quota.</li>
+            <li>Carry valid government ID during travel.</li>
+            <li>Check route advisories before journey dates.</li>
+          </ul>
+        </div>
+        <div class="notice-column">
+          <h3>Offers and Alerts</h3>
+          <ul>
+            <li>Special fares available for selected festival routes.</li>
+            <li>Meal pre-booking available for eligible trains.</li>
+            <li>Payment gateway maintenance notifications.</li>
+          </ul>
+        </div>
+      </section>
+
+      <div class="tertiary-links" aria-label="Additional links">
+        <a href="#support-help-section">Travel Advisory</a>
+        <a href="train-results.html">Fare Rules</a>
+        <a href="payment.html">Cancellation Policy</a>
+        <a href="payment.html">Refund Policy</a>
+      </div>
+
+      <section class="support-help-section" id="support-help-section" aria-labelledby="support-help-title">
+        <h3 id="support-help-title">Contact Us and Help</h3>
+        <p><strong>For Any Queries Related to Railway Tickets Booked via IRCTC</strong></p>
+        <p><strong>Customer Support:</strong> Customers can now submit and track queries through the enhanced online IRCTC eQuery interface: <a href="https://equery.irctc.co.in/" target="_blank" rel="noopener noreferrer">https://equery.irctc.co.in/</a></p>
+        <p>In case a passenger faces any problem in cancelling an E-Ticket online or TDR filing, Write to: <a href="mailto:etickets@irctc.co.in">etickets@irctc.co.in</a></p>
+        <p>Dial <strong>14646</strong> (Within India)</p>
+        <p>Support is available in the following languages:</p>
+        <p>Hindi, English, Punjabi, Bengali, Assamese, Odia, Marathi, Gujarati, Tamil, Telugu, Kannada and Malayalam.</p>
+        <p><strong>Customer Support (Outside India):</strong> Call <strong>+91-8044647999</strong> / <strong>+91-8035734999</strong></p>
+        <p><strong>For queries related to I Mudra wallet:</strong> <a href="https://equery.irctc.co.in/" target="_blank" rel="noopener noreferrer">https://equery.irctc.co.in/</a></p>
+        <p><strong>For complaint regarding IRCTC Loyalty credit card, kindly contact as below.</strong></p>
+        <ul>
+          <li>LOYALTY CREDIT CARD: IRCTC-SBI | CONTACT NUMBER: 0124-39021212 / 18001801295 | EMAIL/URL: <a href="mailto:customercare@sbicard.com">customercare@sbicard.com</a></li>
+          <li>LOYALTY CREDIT CARD: IRCTC-BOB | CONTACT NUMBER: 1800225100 / 18001031006 | EMAIL/URL: <a href="mailto:crm@bobfinancial.com">crm@bobfinancial.com</a></li>
+          <li>LOYALTY CREDIT CARD: IRCTC-HDFC | CONTACT NUMBER: 18002026161 / 18602676161 | EMAIL/URL: <a href="https://www.hdfcbank.com/personal/need-help/contact-us" target="_blank" rel="noopener noreferrer">https://www.hdfcbank.com/personal/need-help/contact-us</a></li>
+          <li>LOYALTY CREDIT CARD: IRCTC-RBL | CONTACT NUMBER: 02262327777 / 02271190900 | EMAIL/URL: <a href="mailto:cardservices@rblbank.com">cardservices@rblbank.com</a></li>
+        </ul>
+        <p>For other queries related to IRCTC Loyalty Co-branded Program, kindly email at <a href="mailto:loyaltyprogram@irctc.co.in">loyaltyprogram@irctc.co.in</a></p>
+        <p><strong>Registered Office - Corporate Office</strong><br>4th Floor, Tower-D,<br>World Trade Center, Nauroji Nagar,<br>New Delhi-110029</p>
+      </section>
+    </section>
+
+    <div class="mobile-sticky-cta" aria-label="Mobile booking action">
+      <button class="primary-btn" id="mobile-search-cta">Search Trains</button>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>IRCTC style UX prototype - preserves official trust-focused visual language.</p>
+    </div>
+  </footer>
+
+  <div class="transition-overlay" id="transition-overlay" aria-hidden="true">
+    <video id="transition-video" muted playsinline preload="auto">
+      <source src="inspiration/transition.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <script src="transition.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
