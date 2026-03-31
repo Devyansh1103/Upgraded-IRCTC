@@ -550,12 +550,6 @@ if (repeatLastBookingBtn) {
     }
     updateFieldLocks();
     showUtilityMessage("Last booking details applied to the search form.");
-      alert(`Welcome, ${name}! Account created.`);
-      registerForm.reset();
-      hide(registerModal);
-      hide(overlay);
-      setTimeout(() => navigateWithTransition("passenger-details.html"), 500);
-    });
   }
 }
 
@@ -627,6 +621,8 @@ renderProgress();
 function setupAuthentication() {
   const loginBtn = document.querySelector("#login-card");
   const registerBtn = document.querySelector("#register-card");
+  const topLoginLink = document.querySelector('.top-strip .right-links a[href="#login-card"]');
+  const topRegisterLink = document.querySelector('.top-strip .right-links a[href="#register-card"]');
 
   if (!loginBtn || !registerBtn) return; // Exit if buttons don't exist
 
@@ -654,29 +650,37 @@ function setupAuthentication() {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2001;
-    width: min(420px, 90vw);
+    width: min(460px, 92vw);
     max-height: 90vh;
     overflow-y: auto;
     background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 12px 40px rgba(18, 58, 116, 0.24);
-    padding: 32px;
+    border-radius: 8px;
+    box-shadow: 0 18px 50px rgba(18, 58, 116, 0.28);
+    padding: 26px 28px;
     display: none;
   `;
   loginModal.innerHTML = `
-    <button type="button" id="login-close" style="position: absolute; top: 12px; right: 12px; background: none; border: none; font-size: 28px; cursor: pointer; width: 32px; height: 32px;">&times;</button>
-    <h3 style="margin-top: 0; margin-bottom: 24px; color: #123a74; font-size: 20px;">Login to Your Account</h3>
-    <form id="login-form" style="display: flex; flex-direction: column; gap: 16px;">
-      <div style="display: flex; flex-direction: column; gap: 6px;">
-        <label style="font-weight: 600; font-size: 14px; color: #123a74;">Email</label>
-        <input type="email" id="login-email" placeholder="Enter email" style="padding: 12px; border: 1px solid #c6d4ea; border-radius: 6px; font-size: 14px;">
+    <button type="button" id="login-close" style="position: absolute; top: 10px; right: 12px; background: none; border: none; font-size: 26px; cursor: pointer; width: 32px; height: 32px; color: #41587a;">&times;</button>
+    <h3 style="margin: 0 auto 20px; width: fit-content; color: #0e3b7a; font-size: 40px; line-height: 1; letter-spacing: 1px; border-bottom: 2px solid #335b9f; padding-bottom: 8px;">LOGIN</h3>
+    <form id="login-form" style="display: flex; flex-direction: column; gap: 10px;">
+      <label for="login-username" style="font-weight: 700; font-size: 30px; color: #0b3975;">User Name</label>
+      <input type="text" id="login-username" placeholder="Enter username or email" style="padding: 12px 4px; border: none; border-bottom: 1px solid #d5deeb; font-size: 18px; outline: none;">
+
+      <label for="login-password" style="margin-top: 6px; font-weight: 700; font-size: 30px; color: #0b3975;">Password</label>
+      <div style="position: relative;">
+        <input type="password" id="login-password" placeholder="Enter password" style="width: 100%; padding: 12px 44px 12px 4px; border: none; border-bottom: 1px solid #d5deeb; font-size: 18px; outline: none;">
+        <button type="button" id="login-toggle-pass" aria-label="Show password" style="position: absolute; right: 6px; top: 50%; transform: translateY(-50%); border: none; background: transparent; cursor: pointer; color: #6a7789; font-size: 19px;">&#128065;</button>
       </div>
-      <div style="display: flex; flex-direction: column; gap: 6px;">
-        <label style="font-weight: 600; font-size: 14px; color: #123a74;">Password</label>
-        <input type="password" id="login-password" placeholder="Enter password" style="padding: 12px; border: 1px solid #c6d4ea; border-radius: 6px; font-size: 14px;">
-      </div>
-      <button type="submit" style="padding: 12px; background: #1b4f9c; color: #fff; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer;">Login</button>
-      <p style="margin: 16px 0 0; font-size: 13px; text-align: center;"><a href="#" id="switch-to-register-from-login" style="color: #1b4f9c; cursor: pointer;">Register</a></p>
+
+      <a href="#" style="margin-top: 6px; color: #0f4fa8; font-weight: 700; font-size: 24px; text-decoration: none; letter-spacing: 0.4px;">FORGOT ACCOUNT DETAILS?</a>
+
+      <label style="display: flex; gap: 10px; align-items: flex-start; margin-top: 2px; font-size: 13px; color: #113f7d; line-height: 1.35;">
+        <input type="checkbox" id="login-visual-option" style="margin-top: 2px; width: 16px; height: 16px;">
+        <span>Visually impaired users may select this option to receive OTP instead of CAPTCHA</span>
+      </label>
+
+      <button type="submit" style="margin-top: 8px; padding: 12px; background: #df6b21; color: #fff; border: none; border-radius: 8px; font-size: 30px; font-weight: 700; letter-spacing: 0.5px; cursor: pointer;">SIGN IN</button>
+      <p style="margin: 8px 0 0; font-size: 13px; text-align: center; color: #234b80;">New user? <a href="#" id="switch-to-register-from-login" style="color: #0f4fa8; font-weight: 700; cursor: pointer;">REGISTER</a></p>
     </form>
   `;
 
@@ -689,37 +693,36 @@ function setupAuthentication() {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2001;
-    width: min(420px, 90vw);
+    width: min(460px, 92vw);
     max-height: 90vh;
     overflow-y: auto;
     background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 12px 40px rgba(18, 58, 116, 0.24);
-    padding: 32px;
+    border-radius: 8px;
+    box-shadow: 0 18px 50px rgba(18, 58, 116, 0.28);
+    padding: 26px 28px;
     display: none;
   `;
   registerModal.innerHTML = `
-    <button type="button" id="register-close" style="position: absolute; top: 12px; right: 12px; background: none; border: none; font-size: 28px; cursor: pointer;">&times;</button>
-    <h3 style="margin-top: 0; margin-bottom: 24px; color: #123a74; font-size: 20px;">Create Account</h3>
-    <form id="register-form" style="display: flex; flex-direction: column; gap: 16px;">
-      <div style="display: flex; flex-direction: column; gap: 6px;">
-        <label style="font-weight: 600; font-size: 14px; color: #123a74;">Name</label>
-        <input type="text" id="register-name" placeholder="Full name" style="padding: 12px; border: 1px solid #c6d4ea; border-radius: 6px; font-size: 14px;">
+    <button type="button" id="register-close" style="position: absolute; top: 10px; right: 12px; background: none; border: none; font-size: 26px; cursor: pointer; color: #41587a;">&times;</button>
+    <h3 style="margin: 0 auto 20px; width: fit-content; color: #0e3b7a; font-size: 32px; line-height: 1; letter-spacing: 0.8px; border-bottom: 2px solid #335b9f; padding-bottom: 8px;">REGISTER</h3>
+    <form id="register-form" style="display: flex; flex-direction: column; gap: 10px;">
+      <label for="register-name" style="font-weight: 700; font-size: 16px; color: #0b3975;">Full Name</label>
+      <input type="text" id="register-name" placeholder="Enter full name" style="padding: 10px 4px; border: none; border-bottom: 1px solid #d5deeb; font-size: 16px; outline: none;">
+
+      <label for="register-email" style="font-weight: 700; font-size: 16px; color: #0b3975;">Email ID</label>
+      <input type="email" id="register-email" placeholder="Enter email" style="padding: 10px 4px; border: none; border-bottom: 1px solid #d5deeb; font-size: 16px; outline: none;">
+
+      <label for="register-password" style="font-weight: 700; font-size: 16px; color: #0b3975;">Password</label>
+      <div style="position: relative;">
+        <input type="password" id="register-password" placeholder="Minimum 6 characters" style="width: 100%; padding: 10px 44px 10px 4px; border: none; border-bottom: 1px solid #d5deeb; font-size: 16px; outline: none;">
+        <button type="button" id="register-toggle-pass" aria-label="Show password" style="position: absolute; right: 6px; top: 50%; transform: translateY(-50%); border: none; background: transparent; cursor: pointer; color: #6a7789; font-size: 18px;">&#128065;</button>
       </div>
-      <div style="display: flex; flex-direction: column; gap: 6px;">
-        <label style="font-weight: 600; font-size: 14px; color: #123a74;">Email</label>
-        <input type="email" id="register-email" placeholder="Enter email" style="padding: 12px; border: 1px solid #c6d4ea; border-radius: 6px; font-size: 14px;">
-      </div>
-      <div style="display: flex; flex-direction: column; gap: 6px;">
-        <label style="font-weight: 600; font-size: 14px; color: #123a74;">Password</label>
-        <input type="password" id="register-password" placeholder="Min 6 chars" style="padding: 12px; border: 1px solid #c6d4ea; border-radius: 6px; font-size: 14px;">
-      </div>
-      <div style="display: flex; flex-direction: column; gap: 6px;">
-        <label style="font-weight: 600; font-size: 14px; color: #123a74;">Confirm</label>
-        <input type="password" id="register-confirm" placeholder="Confirm password" style="padding: 12px; border: 1px solid #c6d4ea; border-radius: 6px; font-size: 14px;">
-      </div>
-      <button type="submit" style="padding: 12px; background: #1b4f9c; color: #fff; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer;">Register</button>
-      <p style="margin: 16px 0 0; font-size: 13px; text-align: center;"><a href="#" id="switch-to-login-from-register" style="color: #1b4f9c; cursor: pointer;">Login</a></p>
+
+      <label for="register-confirm" style="font-weight: 700; font-size: 16px; color: #0b3975;">Confirm Password</label>
+      <input type="password" id="register-confirm" placeholder="Re-enter password" style="padding: 10px 4px; border: none; border-bottom: 1px solid #d5deeb; font-size: 16px; outline: none;">
+
+      <button type="submit" style="margin-top: 8px; padding: 12px; background: #df6b21; color: #fff; border: none; border-radius: 8px; font-size: 18px; font-weight: 700; letter-spacing: 0.4px; cursor: pointer;">CREATE ACCOUNT</button>
+      <p style="margin: 8px 0 0; font-size: 13px; text-align: center; color: #234b80;">Already registered? <a href="#" id="switch-to-login-from-register" style="color: #0f4fa8; font-weight: 700; cursor: pointer;">LOGIN</a></p>
     </form>
   `;
 
@@ -741,15 +744,20 @@ function setupAuthentication() {
   }
 
   // Button events
-  loginBtn.addEventListener("click", (e) => {
+  function openLogin(e) {
     e.preventDefault();
     showModal(loginModal);
-  });
+  }
 
-  registerBtn.addEventListener("click", (e) => {
+  function openRegister(e) {
     e.preventDefault();
     showModal(registerModal);
-  });
+  }
+
+  loginBtn.addEventListener("click", openLogin);
+  registerBtn.addEventListener("click", openRegister);
+  topLoginLink?.addEventListener("click", openLogin);
+  topRegisterLink?.addEventListener("click", openRegister);
 
   // Close buttons
   document.querySelector("#login-close").addEventListener("click", hideAll);
@@ -758,6 +766,17 @@ function setupAuthentication() {
   // Overlay click
   overlay.addEventListener("click", (e) => {
     if (e.target === overlay) hideAll();
+  });
+
+  // Password visibility toggles
+  document.querySelector("#login-toggle-pass").addEventListener("click", () => {
+    const input = document.querySelector("#login-password");
+    input.type = input.type === "password" ? "text" : "password";
+  });
+
+  document.querySelector("#register-toggle-pass").addEventListener("click", () => {
+    const input = document.querySelector("#register-password");
+    input.type = input.type === "password" ? "text" : "password";
   });
 
   // Switch links
@@ -776,19 +795,20 @@ function setupAuthentication() {
   // LOGIN form
   document.querySelector("#login-form").addEventListener("submit", (e) => {
     e.preventDefault();
-    const email = document.querySelector("#login-email").value.trim();
+    const usernameOrEmail = document.querySelector("#login-username").value.trim();
     const password = document.querySelector("#login-password").value.trim();
 
-    if (!email || !password) {
+    if (!usernameOrEmail || !password) {
       alert("Fill all fields");
       return;
     }
 
     const users = readStore("irctc_users", []);
-    const user = users.find(u => u.email === email && u.password === password);
+    const normalized = usernameOrEmail.toLowerCase();
+    const user = users.find(u => (u.email?.toLowerCase() === normalized || u.name?.toLowerCase() === normalized) && u.password === password);
 
     if (user) {
-      writeStore("irctc_user_auth", { email, name: user.name, isAuthenticated: true });
+      writeStore("irctc_user_auth", { email: user.email, name: user.name, isAuthenticated: true });
       alert(`Welcome ${user.name}!`);
       hideAll();
       setTimeout(() => navigateWithTransition("passenger-details.html"), 500);
